@@ -13,6 +13,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const res = await apiFetch("/api/user/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
