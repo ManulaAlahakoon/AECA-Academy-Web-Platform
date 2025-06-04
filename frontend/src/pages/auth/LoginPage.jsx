@@ -27,7 +27,7 @@ const LoginPage = () => {
       alert(data.message);
     }
   };
-
+// OMG
   return (
     <form onSubmit={handleSubmit}>
       <input
