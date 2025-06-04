@@ -28,7 +28,9 @@ export const login = async (req, res) => {
   }
 
   try {
+    
     const user = await User.findOne({ email });
+    
     if (!user) {
       return res.status(400).json({ success: false, message: 'Invalid credentials' });
     }
@@ -37,17 +39,22 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ success: false, message: 'Invalid credentials' });
     }
+   
+   
+   
 
-    const token = jwt.sign(
+   const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
+   
     res.status(200).json({ success: true, token, role: user.role });
 
   } catch (error) {
-    console.error("Error in Login user: ", error.message);
+    
+   console.error("Error in Login user: ", error.message);
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };

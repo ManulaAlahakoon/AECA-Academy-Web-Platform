@@ -14,12 +14,16 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
+
+     console.log( JSON.stringify(form));
     const res = await apiFetch("/api/user/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
     const data = await res.json();
+    console.log(data);
     if (res.ok) {
       login({ email: form.email, token: data.token, role: data.role });
       navigate(`/${data.role}`);
