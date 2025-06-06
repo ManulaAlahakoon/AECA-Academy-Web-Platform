@@ -1,3 +1,4 @@
+// src/pages/Auth/RegisterPage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../../services/api";
@@ -16,28 +17,33 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await apiFetch("/api/user/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    const data = await res.json();
-    if (res.ok) {
+    try {
+      await apiFetch("/api/user/register", {
+        method: "POST",
+        body: JSON.stringify(form),
+      });
       alert("Registered successfully.");
       navigate("/login");
-    } else {
-      alert(data.message);
+    } catch (error) {
+      alert(error.message);
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input name="name" onChange={handleChange} placeholder="Name" required />
+      <input
+        name="name"
+        onChange={handleChange}
+        placeholder="Name"
+        value={form.name}
+        required
+      />
       <input
         name="email"
         type="email"
         onChange={handleChange}
         placeholder="Email"
+        value={form.email}
         required
       />
       <input
@@ -45,9 +51,10 @@ const RegisterPage = () => {
         type="password"
         onChange={handleChange}
         placeholder="Password"
+        value={form.password}
         required
       />
-      <select name="role" onChange={handleChange}>
+      <select name="role" onChange={handleChange} value={form.role}>
         <option value="student">Student</option>
         <option value="teacher">Teacher</option>
         <option value="admin">Admin</option>

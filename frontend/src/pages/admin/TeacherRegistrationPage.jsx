@@ -21,11 +21,9 @@ const TeacherRegistrationPage = () => {
         body: JSON.stringify(form),
       });
       alert("Teacher registered successfully. Credentials sent via email.");
-      setForm({ name: "", email: "" }); // Reset form
-      // Optionally navigate back to user management page:
-      // navigate("/admin/manage-users");
+      setForm({ name: "", email: "" });
     } catch (error) {
-      alert(error.message);
+      alert(error.message); // This will now show the backend error message
     }
   };
 
