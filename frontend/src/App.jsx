@@ -12,9 +12,13 @@ import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageCourse from "./pages/admin/ManageCourse";
+//student dashboard
 import StudentLayout from './layouts/StudentLayout';
-
-
+import StudentCourses from './pages/student/StudentCourses';
+import StudentAssignments from './pages/student/StudentAssignments';
+import StudentAnnouncements from './pages/student/StudentAnnouncements';
+import StudentFeedback from './pages/student/StudentFeedback';
+import StudentChatbot from './pages/student/StudentChatbot';
 function App() {
   return (
     <AuthProvider>
@@ -33,6 +37,11 @@ function App() {
           }
         >
           <Route index element={<StudentDashboard />} />
+          <Route path="courses" element={<StudentCourses />} />
+          <Route path="assignments" element={<StudentAssignments />} />
+          <Route path="announcements" element={<StudentAnnouncements />} />
+          <Route path="feedback" element={<StudentFeedback />} />
+            <Route path="chatbot" element={<StudentChatbot />} />
           {/* Add other student pages here */}
           </Route>
 
