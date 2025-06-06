@@ -12,7 +12,7 @@ import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageCourse from "./pages/admin/ManageCourse";
-
+import StudentLayout from './layouts/StudentLayout';
 
 
 function App() {
@@ -28,10 +28,14 @@ function App() {
           path="/student"
           element={
             <ProtectedRoute role="student">
-              <StudentDashboard />
+              <StudentLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<StudentDashboard />} />
+          {/* Add other student pages here */}
+          </Route>
+
         <Route
           path="/teacher"
           element={
