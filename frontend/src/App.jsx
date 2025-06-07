@@ -11,7 +11,7 @@ import TeacherDashboard from './pages/teacher/TeacherDashboard';
 //import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import ManageCourse from "./pages/admin/ManageCourse";
+import ManageCourse from "./pages/admin/CourseManagementPage";
 import TeacherRegistrationPage from "./pages/admin/TeacherRegistrationPage";
 
 
@@ -52,7 +52,10 @@ function App() {
         >
           <Route index element={<AdminDashboard />} />
           <Route path="manage-courses" element={<ManageCourse />} />
-          <Route path="teacher-registration" element={<TeacherRegistrationPage />} />
+          <Route
+            path="teacher-registration"
+            element={<TeacherRegistrationPage />}
+          />
           {/* Add other nested routes here */}
         </Route>
       </Routes>
