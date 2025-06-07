@@ -6,7 +6,7 @@ import {
   FaTachometerAlt,
   FaBook,
   FaUsers,
-  FaChartBar,
+  FaChartBar,                 
   FaBars,
 } from "react-icons/fa";
 
@@ -15,6 +15,8 @@ const adminLinks = [
   { path: "/admin/manage-courses", label: "Courses", icon: <FaBook /> },
   { path: "/admin/manage-users", label: "Manage Users", icon: <FaUsers /> },
   { path: "/admin/reports", label: "Reports", icon: <FaChartBar /> },
+  { path: "/admin/teacher-registration", label: "Teacher Registration", icon: <FaChartBar /> },
+
 ];
 
 const AdminLayout = () => {
