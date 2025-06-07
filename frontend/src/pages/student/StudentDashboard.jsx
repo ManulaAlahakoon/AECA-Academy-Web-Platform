@@ -1,11 +1,14 @@
-// src/pages/student/StudentDashboard.jsx
 import React from "react";
+import { useAuth } from "../../context/AuthContext";
 
 const StudentDashboard = () => {
+  const { user } = useAuth();
+
   return (
     <div>
-      <h1 className="text-3xl font-semibold mb-4">Student Dashboard</h1>
-      <p>Welcome to your student dashboard! 🚀</p>
+      <h1 className="text-[#800000] text-3xl font-semibold text-center">
+        Welcome, {user?.name || "Student"}!
+      </h1>
     </div>
   );
 };

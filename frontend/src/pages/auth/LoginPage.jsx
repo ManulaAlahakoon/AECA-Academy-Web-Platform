@@ -20,7 +20,7 @@ const LoginPage = () => {
     });
     const data = await res.json();
     if (res.ok) {
-      login({ email: form.email, token: data.token, role: data.role });
+      login({ email: form.email, token: data.token, role: data.role,name: data.name });
       navigate(`/${data.role}`);
     } else {
       alert(data.message);
