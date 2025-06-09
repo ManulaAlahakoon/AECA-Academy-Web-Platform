@@ -4,7 +4,8 @@ import cors from 'cors';
 import { connectDB } from './config/db.js'
 import userRoutes from './routes/user.route.js'
 import adminRoutes from './routes/admin.route.js'
-import courseRoutes from './routes/course.route.js';
+import courseRoutes from './routes/course.route.js';  
+import { authenticateToken } from './middlewares/auth.middleware.js';
 // import User from './models/user.model.js';
 // import bcrypt from 'bcrypt';
 
@@ -18,8 +19,8 @@ app.use(express.json())
 //export const register =
 
 app.use("/api/user", userRoutes)
-app.use("/api/admin", adminRoutes)
-app.use('/api/courses', courseRoutes);  // /api/courses
+app.use("/api/admin",authenticateToken, adminRoutes)
+app.use('/api/courses',authenticateToken, courseRoutes);  // /api/courses
 
 
 app.get("/user", (req, res) => {
