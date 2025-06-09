@@ -21,8 +21,13 @@ import StudentAssignments from './pages/student/StudentAssignments';
 import StudentAnnouncements from './pages/student/StudentAnnouncements';
 import StudentFeedback from './pages/student/StudentFeedback';
 import StudentChatbot from './pages/student/StudentChatbot';
-
-
+//teacher dashboard
+import TeacherProfile from "./pages/teacher/TeacherProfile";
+import TeacherAnnouncements from "./pages/teacher/TeacherAnnouncements";
+import LectureMaterials from "./pages/teacher/LectureMaterials";
+import StudentSubmissions from "./pages/teacher/StudentSubmissions";
+import CourseFeedback from "./pages/teacher/CourseFeedback";
+import TeacherLayout from "./layouts/TeacherLayout";
 
 function App() {
   return (
@@ -54,10 +59,17 @@ function App() {
           path="/teacher"
           element={
             <ProtectedRoute role="teacher">
-              <TeacherDashboard />
+              <TeacherLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<TeacherDashboard />} />
+          <Route path="profile" element={<TeacherProfile />} />
+          <Route path="announcements" element={<TeacherAnnouncements />} />
+          <Route path="materials" element={<LectureMaterials />} />
+          <Route path="submissions" element={<StudentSubmissions />} />
+          <Route path="feedback" element={<CourseFeedback />} />
+        </Route>
         <Route
           path="/admin"
           element={
