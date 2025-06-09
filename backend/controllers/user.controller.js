@@ -52,3 +52,20 @@ export const login = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
+
+
+
+// GET /users?role=teacher
+export const getUsersByRole = async (req, res) => {
+  try {
+    const { role } = req.query;
+    if (!role) {
+      return res.status(400).json({ message: 'Role query parameter is required.' });
+    }
+    const users = await User.find({ role });
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error fetching users by role:', error.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
