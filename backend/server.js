@@ -6,6 +6,7 @@ import userRoutes from './routes/user.route.js'
 import adminRoutes from './routes/admin.route.js'
 import courseRoutes from './routes/course.route.js';  
 import { authenticateToken } from './middlewares/auth.middleware.js';
+
 // import User from './models/user.model.js';
 // import bcrypt from 'bcrypt';
 
