@@ -5,6 +5,7 @@ import { connectDB } from './config/db.js'
 import userRoutes from './routes/user.route.js'
 import adminRoutes from './routes/admin.route.js'
 import courseRoutes from './routes/course.route.js';
+
 // import User from './models/user.model.js';
 // import bcrypt from 'bcrypt';
 

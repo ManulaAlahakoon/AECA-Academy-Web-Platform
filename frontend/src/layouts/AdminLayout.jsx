@@ -28,6 +28,7 @@ const AdminLayout = () => {
     <div className="flex">
       {/* Sidebar */}
       <Sidebar
+        title="AECA Admin"
         links={adminLinks}
         isOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
