@@ -7,8 +7,8 @@ const HomePage = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
 
-      {/* Main Section with slight zoom */}
-      <main className="transform scale-105 flex flex-col-reverse md:flex-row flex-1 px-10 md:px-20 py-12">
+      {/* Main Section with slight zoom and moved upward */}
+      <main className="transform scale-105 flex flex-col-reverse md:flex-row flex-1 px-10 md:px-20 py-6 -mt-6">
         {/* Left Side - Fully Centered Content */}
         <div className="md:w-1/2 flex items-center justify-center">
           <div className="space-y-6 text-center">
