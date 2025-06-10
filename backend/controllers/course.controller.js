@@ -93,3 +93,14 @@ export const toggleCourse = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
+
+// Get enabled courses
+export const getEnabledCourses = async (req, res) => {
+  try {
+    const courses = await Course.find({ isEnabled: true }).populate('assignedTeacher', 'name');
+    res.json({ courses });
+  } catch (err) {
+    console.error("Error fetching courses:", err.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
