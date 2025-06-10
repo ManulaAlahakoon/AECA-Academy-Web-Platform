@@ -7,8 +7,8 @@ const HomePage = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
 
-      {/* Main Section */}
-      <main className="flex flex-col-reverse md:flex-row flex-1 px-10 md:px-20 py-12">
+      {/* Main Section with slight zoom */}
+      <main className="transform scale-105 flex flex-col-reverse md:flex-row flex-1 px-10 md:px-20 py-12">
         {/* Left Side - Fully Centered Content */}
         <div className="md:w-1/2 flex items-center justify-center">
           <div className="space-y-6 text-center">
@@ -16,8 +16,8 @@ const HomePage = () => {
               Academy of English for Career Advancement
             </h2>
             <p className="text-gray-700 text-lg">
-              Welcome to AECA Academy! Explore a smarter way to learn. Access courses, submit assignments,
-              and get support with our English-learning chatbot. Sign up now and start your journey!
+              Welcome to AECA Academy! Explore a smarter way to learn with both physical and online classes. Access courses, submit assignments, 
+              and get support through our English-learning chatbot. Sign up now and start your journey!
             </p>
             <div className="flex space-x-4 justify-center">
               <a
