@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['admin', 'teacher', 'student'],
     default: 'student'
+  },
+  isEnabled: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true
