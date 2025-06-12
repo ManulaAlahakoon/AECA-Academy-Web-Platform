@@ -28,7 +28,7 @@ const TeacherDashboard = () => {
         <DashboardCard 
           title="Lecture Materials"
           description="Upload or manage lectures and assignments."
-          link="/teacher/materials"
+          link="/teacher/lecturematerials"
         />
 
         {/* Submissions */}

@@ -28,6 +28,7 @@ import LectureMaterials from "./pages/teacher/LectureMaterials";
 import StudentSubmissions from "./pages/teacher/StudentSubmissions";
 import CourseFeedback from "./pages/teacher/CourseFeedback";
 import TeacherLayout from "./layouts/TeacherLayout";
+import TeacherCourses from './pages/teacher/TeacherCourses';
 
 function App() {
   return (
@@ -66,9 +67,12 @@ function App() {
           <Route index element={<TeacherDashboard />} />
           <Route path="profile" element={<TeacherProfile />} />
           <Route path="announcements" element={<TeacherAnnouncements />} />
-          <Route path="materials" element={<LectureMaterials />} />
+          <Route path="lecturematerials" element={<LectureMaterials />} />
           <Route path="submissions" element={<StudentSubmissions />} />
           <Route path="feedback" element={<CourseFeedback />} />
+          <Route path="mycourses" element={<TeacherCourses />} />
+          
+/>
         </Route>
         <Route
           path="/admin"
