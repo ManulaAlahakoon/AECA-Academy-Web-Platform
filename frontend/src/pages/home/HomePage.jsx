@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import HeroImage from '../../assets/img1.jpg';
 
 const HomePage = () => {
@@ -7,9 +8,9 @@ const HomePage = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
 
-      {/* Main Section with slight zoom and moved upward */}
-      <main className="transform scale-105 flex flex-col-reverse md:flex-row flex-1 px-10 md:px-20 py-6 -mt-6">
-        {/* Left Side - Fully Centered Content */}
+      {/* Main Section */}
+      <main className="transform scale-105 flex flex-col-reverse md:flex-row flex-1 px-10 md:px-20 py-6 mt-10">
+        {/* Text Content */}
         <div className="md:w-1/2 flex items-center justify-center">
           <div className="space-y-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-[#800000] uppercase">
@@ -36,11 +37,13 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* Right Side - Image */}
+        {/*Image Section */}
         <div className="md:w-1/2 mb-10 md:mb-0 flex justify-center">
           <img src={HeroImage} alt="AECA Hero" className="w-full max-w-md rounded-md object-contain" />
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
 const features = [
   {
@@ -14,46 +15,59 @@ const features = [
   },
   {
     title: 'Sentiment-Based Feedback',
-    description: 'Submit feedback and receive automatic analysis to improve the learning experience.',
+    description: 'Students can submit feedback, and the system provides automatic analysis to help teachers improve the learning experience.',
     icon: '📊',
   },
   {
     title: 'Course Materials Access',
-    description: 'Download notes, recordings, and resources for each class securely and conveniently.',
+    description: 'Download notes and resources for each class conveniently.',
     icon: '📚',
   },
   {
-    title: 'Student-Teacher Communication',
-    description: 'Get quick responses from teachers, and stay updated via announcements.',
+    title: 'Announcements and Updates',
+    description: 'Stay informed with important updates and announcements shared by teachers and admins.',
     icon: '💬',
   },
 ];
 
 const FeaturesPage = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
 
-      <div className="max-w-6xl mx-auto px-6 py-16">
-        <h1 className="text-4xl font-bold text-center text-[#800000] mb-10">
-          AECA Academy Features
-        </h1>
+      <main className="flex flex-col px-6 md:px-20 pt-6 space-y-12 flex-grow">
+        {/* Title Section */}
+        <section className="text-center max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold text-[#800000] mb-4">
+            AECA Academy Features
+          </h2>
+          <p className="text-gray-600 text-lg leading-relaxed">
+            Explore the unique features that make AECA Academy a comprehensive and student-friendly English learning platform.
+          </p>
+        </section>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Features Grid */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-[#f9f9f9] rounded-xl p-6 shadow-md hover:shadow-lg transition"
+              className="bg-[#fdf8f8] rounded-2xl shadow-md p-8 hover:shadow-xl transition duration-300 text-center flex flex-col items-center"
             >
-              <div className="text-4xl mb-4">{feature.icon}</div>
-              <h2 className="text-xl font-semibold text-[#800000] mb-2">
+              <div className="text-5xl bg-[#800000] text-white rounded-full w-20 h-20 flex items-center justify-center mb-6">
+                {feature.icon}
+              </div>
+              <h3 className="text-xl font-semibold text-[#800000] mb-3">
                 {feature.title}
-              </h2>
-              <p className="text-gray-700">{feature.description}</p>
+              </h3>
+              <p className="text-gray-700 text-base mb-2 text-justify">
+                {feature.description}
+              </p>
             </div>
           ))}
-        </div>
-      </div>
+        </section>
+      </main>
+
+      <Footer />
     </div>
   );
 };
