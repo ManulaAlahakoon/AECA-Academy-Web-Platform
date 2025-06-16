@@ -16,6 +16,10 @@ const courseSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
+  monthlyFee: {
+    type: Number,
+    //required: true
+  },
   isEnabled: {
     type: Boolean,
     default: true
