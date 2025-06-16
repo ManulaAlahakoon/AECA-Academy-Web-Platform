@@ -39,7 +39,7 @@ const StudentDashboard = () => {
     formData.append("receipt", receipt);
 
     try {
-      await apiFetch(`/api/enrollement/${selectedCourse._id}/enroll`, {
+      await apiFetch(`/api/enrollment/${selectedCourse._id}/enroll`, {
         method: "POST",
         body: formData,
       });

@@ -13,6 +13,8 @@ import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageCourse from "./pages/admin/CourseManagementPage";
 import TeacherRegistrationPage from "./pages/admin/TeacherRegistrationPage";
+import PaymentVerification from "./pages/admin/PaymentVerification";
+
 
 //student dashboard
 import StudentLayout from './layouts/StudentLayout';
@@ -21,7 +23,7 @@ import StudentAssignments from './pages/student/StudentAssignments';
 import StudentAnnouncements from './pages/student/StudentAnnouncements';
 import StudentFeedback from './pages/student/StudentFeedback';
 import StudentChatbot from './pages/student/StudentChatbot';
-
+import StudentCourseDetail from "./pages/student/StudentCourseDetail";
 
 
 function App() {
@@ -46,9 +48,11 @@ function App() {
           <Route path="assignments" element={<StudentAssignments />} />
           <Route path="announcements" element={<StudentAnnouncements />} />
           <Route path="feedback" element={<StudentFeedback />} />
-            <Route path="chatbot" element={<StudentChatbot />} />
+          <Route path="chatbot" element={<StudentChatbot />} />
+
+          <Route path="course/:id" element={<StudentCourseDetail />} />
           {/* Add other student pages here */}
-          </Route>
+        </Route>
 
         <Route
           path="/teacher"
@@ -72,6 +76,11 @@ function App() {
             path="teacher-registration"
             element={<TeacherRegistrationPage />}
           />
+          <Route
+            path="enrollment-approvals"
+            element={<PaymentVerification />}
+          />
+
           {/* Add other nested routes here */}
         </Route>
       </Routes>

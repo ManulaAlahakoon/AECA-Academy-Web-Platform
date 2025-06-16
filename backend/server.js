@@ -22,7 +22,10 @@ app.use(express.json())
 app.use("/api/user", userRoutes)
 app.use("/api/admin",authenticateToken, adminRoutes)
 app.use('/api/courses', authenticateToken, courseRoutes);  // /api/courses
-app.use('/api/enrollement', enrollmentRoutes);
+app.use('/api/enrollment', authenticateToken, enrollmentRoutes);
+
+//Image 
+app.use('/uploads', express.static('uploads'));
 
 
 
