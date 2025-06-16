@@ -19,7 +19,7 @@ const LoginPage = () => {
         method: "POST",
         body: JSON.stringify(form),
       });
-      login({ email: form.email, token: data.token, role: data.role });
+      login({ email: form.email, token: data.token, role: data.role,name:data.name });
       navigate(`/${data.role}`);
     } catch (error) {
       alert(error.message);

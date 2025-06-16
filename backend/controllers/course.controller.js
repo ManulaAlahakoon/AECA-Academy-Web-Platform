@@ -1,5 +1,7 @@
 import Course from '../models/course.model.js';
 import User from '../models/user.model.js';
+import Enrollment from '../models/enrollement.model.js';
+
 
 // Create a new course
 export const createCourse = async (req, res) => {
@@ -91,5 +93,38 @@ export const toggleCourse = async (req, res) => {
   } catch (error) {
     console.error("Error in toggleCourse: ", error.message);
     res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+// Get enabled courses
+export const getEnabledCourses = async (req, res) => {
+  try {
+    const courses = await Course.find({ isEnabled: true }).populate('assignedTeacher', 'name');
+    res.json({ courses });
+  } catch (err) {
+    console.error("Error fetching courses:", err.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+//Get approved courses from the student side
+export const getApprovedCourses = async (req, res) => {
+  const studentId = req.user.id;
+
+  try {
+    const enrollments = await Enrollment.find({
+      student: studentId,
+      status: 'approved',
+      validUntil: { $gt: new Date() } // still valid
+    }).populate({
+      path: 'course',
+      populate: { path: 'assignedTeacher', select: 'name email' }
+    });
+
+    const approvedCourses = enrollments.map(enroll => enroll.course);
+    res.json({ success: true, courses: approvedCourses });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error fetching approved courses' });
   }
 };
