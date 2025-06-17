@@ -24,6 +24,7 @@ import StudentAnnouncements from './pages/student/StudentAnnouncements';
 import StudentFeedback from './pages/student/StudentFeedback';
 import StudentChatbot from './pages/student/StudentChatbot';
 import StudentCourseDetail from "./pages/student/StudentCourseDetail";
+import StudentProfile from './pages/student/StudentProfile';
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
           <Route path="announcements" element={<StudentAnnouncements />} />
           <Route path="feedback" element={<StudentFeedback />} />
           <Route path="chatbot" element={<StudentChatbot />} />
+          <Route path="profile" element={<StudentProfile />} />
 
           <Route path="course/:id" element={<StudentCourseDetail />} />
           {/* Add other student pages here */}

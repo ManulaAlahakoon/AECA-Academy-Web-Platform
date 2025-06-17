@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import { FaTachometerAlt, FaBook, FaUpload, FaBullhorn, FaCommentDots, FaRobot, FaBars } from "react-icons/fa";
+import { FaTachometerAlt, FaBook, FaUpload, FaBullhorn, FaCommentDots, FaRobot, FaBars, FaUser} from "react-icons/fa";
 
 const studentLinks = [
   { path: "/student", label: "Dashboard", icon: <FaTachometerAlt /> },
@@ -11,6 +11,8 @@ const studentLinks = [
   { path: "/student/announcements", label: "Announcements", icon: <FaBullhorn /> },
   { path: "/student/feedback", label: "Feedback", icon: <FaCommentDots /> },
   { path: "/student/chatbot", label: "Chatbot", icon: <FaRobot /> },
+  { path: "/student/profile", label: "Profile", icon: <FaUser /> }
+
 ];
 
 const StudentLayout = () => {
