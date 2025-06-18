@@ -68,4 +68,5 @@ export const getUsersByRole = async (req, res) => {
     console.error('Error fetching users by role:', error.message);
     res.status(500).json({ message: 'Server error' });
   }
-};
+}; 
+
