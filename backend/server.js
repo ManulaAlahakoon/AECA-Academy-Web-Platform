@@ -29,7 +29,7 @@ app.use('/api/courses', authenticateToken, courseRoutes);  // /api/courses
 app.use('/api/enrollment', authenticateToken, enrollmentRoutes);
 
 //Risna
-app.use('/api/profile', authenticateToken, profileRoutes);
+//app.use('/api/profile', authenticateToken, profileRoutes);
 
 //Image 
 app.use('/uploads', express.static('uploads'));
