@@ -9,7 +9,7 @@ import { authenticateToken } from './middlewares/auth.middleware.js';
 import enrollmentRoutes from './routes/enrollment.route.js';
 // Risna
 import profileRoutes from './routes/profile.route.js';
-
+ 
 
 // import User from './models/user.model.js';
 // import bcrypt from 'bcrypt';
@@ -29,7 +29,11 @@ app.use('/api/courses', authenticateToken, courseRoutes);  // /api/courses
 app.use('/api/enrollment', authenticateToken, enrollmentRoutes);
 
 //Risna
-//app.use('/api/profile', authenticateToken, profileRoutes);
+
+app.use('/api/profile', authenticateToken, profileRoutes);
+
+
+
 
 //Image 
 app.use('/uploads', express.static('uploads'));
