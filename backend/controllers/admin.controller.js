@@ -3,6 +3,8 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer'; 
+import Course from '../models/course.model.js';
+import Enrollment from '../models/enrollement.model.js';
 
 export const registerTeacher = async (req, res) => {
   const { name, email } = req.body;
@@ -72,4 +74,68 @@ AECA Admin`
   };
 
   await transporter.sendMail(mailOptions);
+};
+
+
+export const getAdminDashboardStats = async (req, res) => {
+  try {
+    const [totalUsers, totalTeachers, totalStudents, totalCourses, pendingEnrollments] = await Promise.all([
+      User.countDocuments(),
+      User.countDocuments({ role: 'teacher' }),
+      User.countDocuments({ role: 'student' }),
+      Course.countDocuments(),
+      Enrollment.countDocuments({ status: 'pending' })
+    ]);
+
+    res.json({
+      success: true,
+      stats: {
+        totalUsers,
+        totalTeachers,
+        totalStudents,
+        totalCourses,
+        pendingEnrollments
+      }
+    });
+  } catch (err) {
+    console.error("Dashboard stats error:", err);
+    res.status(500).json({ message: "Server error retrieving dashboard stats" });
+  }
+};
+
+
+export const getCourseEnrollmentChart = async (req, res) => {
+  try {
+    // Aggregate count of approved enrollments grouped by course
+    const data = await Enrollment.aggregate([
+      { $match: { status: 'approved' } },
+      {
+        $group: {
+          _id: "$course",
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $lookup: {
+          from: "courses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "course"
+        }
+      },
+      { $unwind: "$course" },
+      {
+        $project: {
+          _id: 0,
+          courseName: "$course.name",
+          count: 1
+        }
+      }
+    ]);
+
+    res.json({ success: true, data });
+  } catch (err) {
+    console.error("Chart data error:", err);
+    res.status(500).json({ message: "Server error while fetching chart data" });
+  }
 };

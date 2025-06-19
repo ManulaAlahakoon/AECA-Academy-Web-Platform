@@ -32,7 +32,7 @@ import StudentSubmissions from "./pages/teacher/StudentSubmissions";
 import CourseFeedback from "./pages/teacher/CourseFeedback";
 import TeacherLayout from "./layouts/TeacherLayout";
 import TeacherCourses from './pages/teacher/TeacherCourses';
-
+import TeacherCourseInfo from './pages/teacher/TeacherCourseInfo';
 
 function App() {
   return (
@@ -77,6 +77,9 @@ function App() {
           <Route path="submissions" element={<StudentSubmissions />} />
           <Route path="feedback" element={<CourseFeedback />} />
           <Route path="mycourses" element={<TeacherCourses />} />
+
+          <Route path="/teacher/course/:id" element={<TeacherCourseInfo />} />
+
           
 
         </Route>

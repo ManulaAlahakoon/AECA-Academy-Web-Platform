@@ -7,6 +7,7 @@ import adminRoutes from './routes/admin.route.js'
 import courseRoutes from './routes/course.route.js';  
 import { authenticateToken } from './middlewares/auth.middleware.js';
 import enrollmentRoutes from './routes/enrollment.route.js';
+import teacherRoutes from './routes/teacher.route.js';
 // import User from './models/user.model.js';
 // import bcrypt from 'bcrypt';
 
@@ -23,6 +24,9 @@ app.use("/api/user", userRoutes)
 app.use("/api/admin",authenticateToken, adminRoutes)
 app.use('/api/courses', authenticateToken, courseRoutes);  // /api/courses
 app.use('/api/enrollment', authenticateToken, enrollmentRoutes);
+
+//teacher routes
+app.use('/api/teacher', authenticateToken, teacherRoutes);
 
 //Image 
 app.use('/uploads', express.static('uploads'));
