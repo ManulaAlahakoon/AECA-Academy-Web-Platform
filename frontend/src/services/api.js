@@ -58,27 +58,104 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 //   return data;
 // };
 
+/// Mostly right one for form image uploads
 
+// export const apiFetch = async (endpoint, options = {}) => {
+//   const token = localStorage.getItem("token");
+//   const headers = {
+//     ...(token && { 'Authorization': `Bearer ${token}` }),
+//     ...(options.headers || {})
+//   };
+
+//   // Only set 'Content-Type' to JSON if body is NOT FormData
+//   if (!(options.body instanceof FormData)) {
+//     headers['Content-Type'] = 'application/json';
+//   }
+
+//   const res = await fetch(`${BASE_URL}${endpoint}`, {
+//     ...options,
+//     headers
+//   });
+
+//   const data = await res.json().catch(() => ({}));
+//   if (!res.ok) {
+//     throw new Error(data.message || 'Something went wrong');
+//   }
+//   return data;
+// };
+
+// export const apiFetch = async (endpoint, options = {}) => {
+//   const token = localStorage.getItem("token");
+
+//   const res = await fetch(`${BASE_URL}${endpoint}`, {
+//     ...options,
+//     headers: {
+//       "Content-Type": "application/json",
+//       ...(token && { "Authorization": `Bearer ${token}` }),
+//       ...(options.headers || {})
+//     },
+//   });
+
+//   if (!res.ok) {
+//     const errorData = await res.json().catch(() => ({}));
+//     if (res.status === 403 && errorData.message?.includes("disabled")) {
+//       alert(errorData.message);
+//       localStorage.removeItem("token"); // Clear the token
+//       localStorage.removeItem("user"); // Clear user data
+//       window.location.href = "/login"; // Redirect to login
+//     }
+//     throw new Error(errorData.message || "Something went wrong");
+//   }
+
+//   return res.json();
+// };
 export const apiFetch = async (endpoint, options = {}) => {
   const token = localStorage.getItem("token");
   const headers = {
     ...(token && { 'Authorization': `Bearer ${token}` }),
     ...(options.headers || {})
   };
-
-  // Only set 'Content-Type' to JSON if body is NOT FormData
+  
   if (!(options.body instanceof FormData)) {
     headers['Content-Type'] = 'application/json';
   }
 
   const res = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
-    headers
+    headers,
   });
 
   const data = await res.json().catch(() => ({}));
+
+  // if (!res.ok) {
+  //   if (res.status === 403 && data.message?.includes("disabled")) {
+  //     alert(data.message);
+  //     localStorage.removeItem("token"); // Clear the token
+  //     localStorage.removeItem("user"); // Clear user data
+  //     window.location.href = "/login"; // Redirect to login
+  //   }
+  //   throw new Error(data.message || "Something went wrong");
+  // }
+
   if (!res.ok) {
-    throw new Error(data.message || 'Something went wrong');
+  //  If account is disabled
+  if (res.status === 403 && data.message?.includes("disabled")) {
+    alert(data.message);
+    localStorage.removeItem("token"); 
+    localStorage.removeItem("user"); 
+    window.location.href = "/login"; 
   }
+
+  // If the token is invalid or expired
+  if (res.status === 401) {
+    alert(data.message || "Your session has expired. Please log in again.");
+    localStorage.removeItem("token"); 
+    localStorage.removeItem("user"); 
+    window.location.href = "/login"; 
+  }
+
+  throw new Error(data.message || "Something went wrong");
+}
+
   return data;
 };
