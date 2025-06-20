@@ -7,21 +7,74 @@ import {
   FaClock,
   FaChalkboardTeacher,
 } from "react-icons/fa";
-import { Bar } from "react-chartjs-2";
+
+import { Bar, Line } from "react-chartjs-2";
+// import {
+//   Chart as ChartJS,
+//   CategoryScale,
+//   LinearScale,
+//   Tooltip,
+//   Legend,
+// } from "chart.js";
+
+
 import {
   Chart as ChartJS,
+  LineElement,
+  PointElement,
   BarElement,
-  CategoryScale,
   LinearScale,
+  CategoryScale,
   Tooltip,
   Legend,
-} from "chart.js";
+} from "chart.js";    
+
+ChartJS.register(
+  LineElement,
+  PointElement,
+  LinearScale,
+  CategoryScale,
+  Tooltip,
+  Legend
+);
+
+
+
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
   const [chartData, setChartData] = useState(null);
+  const [recent, setRecent] = useState(null);
+  const [weeklySignups, setWeeklySignups] = useState([]);
+
+  useEffect(() => {
+    const fetchWeekly = async () => {
+      try {
+        const res = await apiFetch("/api/admin/weekly-signups");
+        setWeeklySignups(res.data);
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+
+    fetchWeekly();
+  }, []);
+
+  useEffect(() => {
+    const fetchRecent = async () => {
+      try {
+        const res = await apiFetch("/api/admin/recent-activity");
+        setRecent(res.data);
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+
+    fetchRecent();
+  }, []);
+
 
   useEffect(() => {
     const fetchChartData = async () => {
@@ -65,7 +118,6 @@ const AdminDashboard = () => {
       <h1 className="text-3xl font-bold text-[#800000] mb-6">
         Admin Dashboard
       </h1>
-
       {!stats ? (
         <p>Loading...</p>
       ) : (
@@ -97,6 +149,9 @@ const AdminDashboard = () => {
           />
         </div>
       )}
+
+      {/* the Chart */}
+
       {chartData && (
         <div className="bg-white shadow p-6 mt-10 rounded max-w-4xl mx-auto">
           <h2 className="text-xl font-semibold mb-4 text-center">
@@ -144,6 +199,76 @@ const AdminDashboard = () => {
                     color: "#e5e5e5", // light gray lines
                   },
                 },
+              },
+            }}
+          />
+        </div>
+      )}
+
+      {/* Recent Activity Panel */}
+
+      {recent && (
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <h3 className="text-lg font-bold text-[#800000] mb-2">New Users</h3>
+            <ul className="bg-white rounded shadow p-4 space-y-2 text-sm">
+              {recent.users.map((user) => (
+                <li key={user._id}>
+                  {user.name} ({user.role})
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-[#800000] mb-2">
+              New Courses
+            </h3>
+            <ul className="bg-white rounded shadow p-4 space-y-2 text-sm">
+              {recent.courses.map((course) => (
+                <li key={course._id}>{course.name}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-[#800000] mb-2">
+              Recent Enrollments
+            </h3>
+            <ul className="bg-white rounded shadow p-4 space-y-2 text-sm">
+              {recent.enrollments.map((e) => (
+                <li key={e._id}>
+                  {e.student.name} → {e.course.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {weeklySignups.length > 0 && (
+        <div className="mt-10 bg-white rounded shadow p-6 max-w-3xl mx-auto">
+          <h2 className="text-lg font-bold text-[#800000] mb-4 text-center">
+            Weekly Student Signups
+          </h2>
+          <Line
+            data={{
+              labels: weeklySignups.map((d) => d.date),
+              datasets: [
+                {
+                  label: "Signups",
+                  data: weeklySignups.map((d) => d.count),
+                  borderColor: "#800000",
+                  backgroundColor: "#80000030",
+                  tension: 0.3,
+                  fill: true,
+                },
+              ],
+            }}
+            options={{
+              scales: {
+                y: { beginAtZero: true },
+              },
+              plugins: {
+                legend: { display: false },
               },
             }}
           />

@@ -14,6 +14,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageCourse from "./pages/admin/CourseManagementPage";
 import TeacherRegistrationPage from "./pages/admin/TeacherRegistrationPage";
 import PaymentVerification from "./pages/admin/PaymentVerification";
+import ManageUsers from "./pages/admin/ManageUsers";
 
 
 //student dashboard
@@ -101,6 +102,7 @@ function App() {
             path="enrollment-approvals"
             element={<PaymentVerification />}
           />
+          <Route path="manage-users" element={<ManageUsers />} />
 
           {/* Add other nested routes here */}
         </Route>
