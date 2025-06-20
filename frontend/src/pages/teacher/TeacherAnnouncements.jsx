@@ -63,9 +63,23 @@ const handlePost = async (e) => {
   }
 };
 
-  const handleDelete = (id) => {
-    setAnnouncements(announcements.filter((a) => a.id !== id));
-  };
+ const handleDelete = async (id) => {
+  try {
+    const res = await apiFetch(`/api/teacher/announcements/${id}`, {
+      method: "DELETE",
+    });
+
+    if (res.success) {
+      setAnnouncements((prev) => prev.filter((a) => a._id !== id));
+    } else {
+      alert("Delete failed: " + res.message);
+    }
+  } catch (error) {
+    console.error("Delete error:", error);
+    alert("Server error while deleting announcement.");
+  }
+};
+
 const today = new Date().toDateString();
 const sortedPosts = [...announcements].sort(
   (a, b) => new Date(b.date) - new Date(a.date)
@@ -141,7 +155,7 @@ const previousPosts = [
         <ul className="space-y-4 mb-6">
           {recentPosts.map((ann) => (
             <li
-              key={ann.id}
+              key={ann._id}
               className="bg-gray-50 border p-4 rounded relative shadow-sm"
             >
               <p className="text-sm text-maroon-800 font-semibold">
@@ -149,7 +163,7 @@ const previousPosts = [
               </p>
               <p className="text-gray-700 mt-1">{ann.message}</p>
               <button
-                onClick={() => handleDelete(ann.id)}
+                onClick={() => handleDelete(ann._id)}
                 className="absolute top-2 right-2 text-red-600 text-sm hover:underline"
               >
                 Delete
@@ -169,7 +183,7 @@ const previousPosts = [
         <ul className="space-y-4">
           {previousPosts.map((ann) => (
             <li
-              key={ann.id}
+              key={ann._id}
               className="bg-gray-100 border p-4 rounded relative shadow-sm"
             >
               <p className="text-sm text-maroon-800 font-semibold">
@@ -177,7 +191,7 @@ const previousPosts = [
               </p>
               <p className="text-gray-700 mt-1">{ann.message}</p>
               <button
-                onClick={() => handleDelete(ann.id)}
+                onClick={() => handleDelete(ann._id)}
                 className="absolute top-2 right-2 text-red-600 text-sm hover:underline"
               >
                 Delete
