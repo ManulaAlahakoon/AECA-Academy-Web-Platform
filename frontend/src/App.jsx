@@ -2,6 +2,11 @@ import './App.css'
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import HomePage from './pages/home/HomePage';
+import AboutPage from './pages/home/AboutPage';
+import FeaturePage from './pages/home/FeaturePage';
+import CoursePage from './pages/home/CoursePage';
+import ContactPage from './pages/home/ContactPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import ForgotPassword from './pages/auth/ForgotPassword';
@@ -24,6 +29,7 @@ import StudentAnnouncements from './pages/student/StudentAnnouncements';
 import StudentFeedback from './pages/student/StudentFeedback';
 import StudentChatbot from './pages/student/StudentChatbot';
 import StudentCourseDetail from "./pages/student/StudentCourseDetail";
+
 //teacher dashboard
 import TeacherProfile from "./pages/teacher/TeacherProfile";
 import TeacherAnnouncements from "./pages/teacher/TeacherAnnouncements";
@@ -38,6 +44,12 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/features" element={<FeaturePage />} />
+        <Route path="/courses" element={<CoursePage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -99,7 +111,7 @@ function App() {
             element={<PaymentVerification />}
           />
 
-          {/* Add other nested routes here */}
+          
         </Route>
       </Routes>
     </AuthProvider>

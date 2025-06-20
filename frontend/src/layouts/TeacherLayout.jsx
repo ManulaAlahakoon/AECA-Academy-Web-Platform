@@ -13,7 +13,6 @@ import {
 
 const teacherLinks = [
   { path: "/teacher", label: "Dashboard", icon: <FaTachometerAlt /> },
-  { path: "/teacher/mycourses", label: "My Courses", icon: <FaBook /> },
   { path: "/teacher/lecturematerials", label: "Lecture Materials", icon: <FaBook /> },
   { path: "/teacher/announcements", label: "Announcements", icon: <FaBullhorn /> },
   { path: "/teacher/feedback", label: "Feedback", icon: <FaCommentDots /> },
