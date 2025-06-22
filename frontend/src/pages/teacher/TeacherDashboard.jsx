@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 const TeacherCourses = () => {
   const [courses, setCourses] = useState([]);
   const [expanded, setExpanded] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [uploadCourse, setUploadCourse] = useState("");
+  const [uploadFile, setUploadFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadType, setUploadType] = useState("lecture"); // 'lecture' or 'assignment'
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,16 +26,68 @@ const TeacherCourses = () => {
     }
   };
 
-  const handleUploadMaterial = (courseId) => {
-    navigate(`/teacher/course/${courseId}/upload-material`);
+  const handleUploadMaterial = (courseName, courseId) => {
+    localStorage.setItem("selectedCourseId", courseId);
+    setUploadCourse(courseName);
+    setUploadType("lecture");
+    setShowModal(true);
   };
 
-  const handleUploadAssignment = (courseId) => {
-    navigate(`/teacher/course/${courseId}/upload-assignment`);
+  const handleUploadAssignment = (courseName, courseId) => {
+    localStorage.setItem("selectedCourseId", courseId);
+    setUploadCourse(courseName);
+    setUploadType("assignment");
+    setShowModal(true);
   };
 
   const toggleExpand = (courseId) => {
     setExpanded((prev) => ({ ...prev, [courseId]: !prev[courseId] }));
+  };
+
+  const handleFileUpload = async (e) => {
+    e.preventDefault();
+    if (!uploadCourse || !uploadFile) return alert("Please select course and file");
+
+    const formData = new FormData();
+    formData.append("course", uploadCourse);
+    formData.append("file", uploadFile);
+    formData.append("type", uploadType);
+
+    const endpoint =
+      uploadType === "assignment"
+        ? "http://localhost:5000/api/teacher/assignments/upload"
+        : "http://localhost:5000/api/teacher/materials/upload";
+
+    try {
+      setUploading(true);
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
+      });
+
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        throw new Error("Server returned non-JSON response");
+      }
+
+      if (res.ok && data.success) {
+        alert(`${uploadType === "assignment" ? "Assignment" : "Material"} uploaded successfully.`);
+        setShowModal(false);
+        setUploadCourse("");
+        setUploadFile(null);
+      } else {
+        alert(data.message || "Upload failed.");
+      }
+    } catch (err) {
+      alert("Error uploading: " + err.message);
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -77,7 +135,7 @@ const TeacherCourses = () => {
               {/* Bottom Buttons */}
               <div className="mt-4 flex justify-center gap-4">
                 <button
-                  onClick={() => handleUploadMaterial(course._id)}
+                  onClick={() => handleUploadMaterial(course.name, course._id)}
                   className="bg-[#800000] hover:bg-[#a00000] text-white text-sm rounded-md shadow-md transition duration-200"
                   style={{
                     width: "140px",
@@ -95,7 +153,7 @@ const TeacherCourses = () => {
                 </button>
 
                 <button
-                  onClick={() => handleUploadAssignment(course._id)}
+                  onClick={() => handleUploadAssignment(course.name, course._id)}
                   className="bg-[#800000] hover:bg-[#a00000] text-white text-sm rounded-md shadow-md transition duration-200"
                   style={{
                     width: "140px",
@@ -116,6 +174,46 @@ const TeacherCourses = () => {
           );
         })}
       </div>
+
+      {/* Upload Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 className="text-lg font-bold text-maroon-700 mb-4">
+              Upload {uploadType === "assignment" ? "Assignment" : "Material"} for: {uploadCourse}
+            </h2>
+            <form onSubmit={handleFileUpload} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Select File
+                </label>
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.txt"
+                  onChange={(e) => setUploadFile(e.target.files[0])}
+                  className="w-full mt-1"
+                />
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="text-gray-600 hover:underline"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={uploading}
+                  className="bg-[#800000] text-white px-4 py-2 rounded hover:bg-[#a00000]"
+                >
+                  {uploading ? "Uploading..." : "Upload"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

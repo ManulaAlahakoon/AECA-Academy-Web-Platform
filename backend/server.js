@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from "path";
 import { connectDB } from './config/db.js'
 import userRoutes from './routes/user.route.js'
 import adminRoutes from './routes/admin.route.js'
@@ -10,6 +11,9 @@ import enrollmentRoutes from './routes/enrollment.route.js';
 import teacherRoutes from './routes/teacher.route.js';
 import teacherAnnouncementRoutes from "./routes/teacherAnnouncement.routes.js";
 import studentAnnouncementRoutes from "./routes/studentAnnouncement.routes.js";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
 // import User from './models/user.model.js';
 // import bcrypt from 'bcrypt';
 
@@ -32,7 +36,17 @@ app.use('/api/teacher', authenticateToken, teacherRoutes);
 app.use("/api", teacherAnnouncementRoutes);
 //Image 
 app.use('/uploads', express.static('uploads'));
+// Serve uploaded files
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+app.use("/LectureMaterials", express.static(path.join(process.cwd(), "uploads/LectureMaterials")));
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use(
+  "/LectureMaterials",
+  express.static(path.join(__dirname, "uploads", "LectureMaterials"))
+);
+app.use("/assignments", express.static(path.join(process.cwd(), "uploads/assignments")));
 
 //student routes
 app.use("/api/student", studentAnnouncementRoutes);

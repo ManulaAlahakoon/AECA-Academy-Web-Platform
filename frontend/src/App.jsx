@@ -89,7 +89,7 @@ function App() {
           <Route path="submissions" element={<StudentSubmissions />} />
           <Route path="feedback" element={<CourseFeedback />} />
           <Route path="mycourses" element={<TeacherCourses />} />
-          
+          <Route path="/teacher/course/:courseId/materials" element={<LectureMaterials />} />
 
         </Route>
         <Route
