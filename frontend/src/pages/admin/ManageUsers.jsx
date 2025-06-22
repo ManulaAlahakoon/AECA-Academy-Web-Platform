@@ -8,7 +8,7 @@ const CourseStudents = () => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [confirmAction, setConfirmAction] = useState(null);
 
-  // ✅ Get all courses
+  // Get all courses
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -21,7 +21,7 @@ const CourseStudents = () => {
     fetchCourses();
   }, []);
 
-  // ✅ Get students for selected course
+  // Get students for selected course
   useEffect(() => {
     if (!selectedCourseId) return;
 
@@ -38,7 +38,7 @@ const CourseStudents = () => {
     fetchStudents();
   }, [selectedCourseId]);
 
-  // ✅ Toggle Student Status
+  // Toggle Student Status
   const handleToggle = async (student) => {
     setConfirmAction(student);
   };
@@ -72,7 +72,7 @@ const CourseStudents = () => {
         Manage Enrolled Students
       </h2>
 
-      {/* ✅ Select Course Dropdown */}
+      {/*  Select Course Dropdown */}
       <div className="mt-4">
         <label className="block font-semibold text-gray-700">
           Select Course:
@@ -91,7 +91,7 @@ const CourseStudents = () => {
         </select>
       </div>
 
-      {/* ✅ Students List */}
+      {/* Students List */}
       {selectedCourseId && (
         <>
           <table className="min-w-full mt-6 bg-white rounded shadow border">
@@ -141,8 +141,8 @@ const CourseStudents = () => {
         </>
       )}
 
-      {/* ✅ Student Profile Modal */}
-      {selectedStudent && (
+      {/*  Student Profile Modal */}
+      {/* {selectedStudent && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-40">
           <div className="bg-white rounded p-6 w-96 relative">
             <h2 className="text-2xl font-bold text-[#800000]">
@@ -163,9 +163,96 @@ const CourseStudents = () => {
             </div>
           </div>
         </div>
+      )} */}
+      {selectedStudent && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-40">
+          <div className="bg-white rounded p-6 w-[400px] relative shadow-lg">
+            {/* Profile Picture */}
+            <div className="flex justify-center">
+              <img
+                src={`${import.meta.env.VITE_API_BASE_URL}/${selectedStudent.profilePicture}`}
+                //src={
+                //  selectedStudent.profilePicture ||
+                //  "https://via.placeholder.com/100"
+                //}
+                alt={selectedStudent.name}
+                className="w-24 h-24 rounded-full object-cover border-2 border-[#800000]"
+              />
+            </div>
+            <h2 className="text-2xl font-bold text-[#800000] text-center mt-3">
+              {selectedStudent.name}
+            </h2>
+
+            <div className="mt-4 space-y-2 text-gray-700">
+              <p>
+                <span className="font-semibold">Email:</span>{" "}
+                {selectedStudent.email}
+              </p>
+              <p>
+                <span className="font-semibold">Role:</span>{" "}
+                {selectedStudent.role}
+              </p>
+              <p>
+                <span className="font-semibold">Account Status:</span>{" "}
+                {selectedStudent.isEnabled ? "Enabled" : "Disabled"}
+              </p>
+              {selectedStudent.dateOfBirth && (
+                <p>
+                  <span className="font-semibold">Date of Birth:</span>{" "}
+                  {new Date(selectedStudent.dateOfBirth).toLocaleDateString()}
+                </p>
+              )}
+              {selectedStudent.phone && (
+                <p>
+                  <span className="font-semibold">Phone:</span>{" "}
+                  {selectedStudent.phone}
+                </p>
+              )}
+              {selectedStudent.address && (
+                <p>
+                  <span className="font-semibold">Address:</span>{" "}
+                  {selectedStudent.address}
+                </p>
+              )}
+              {selectedStudent.country && (
+                <p>
+                  <span className="font-semibold">Country:</span>{" "}
+                  {selectedStudent.country}
+                </p>
+              )}
+              {selectedStudent.occupation && (
+                <p>
+                  <span className="font-semibold">Occupation:</span>{" "}
+                  {selectedStudent.occupation}
+                </p>
+              )}
+              {selectedStudent.bio && (
+                <p>
+                  <span className="font-semibold">Bio:</span>{" "}
+                  {selectedStudent.bio}
+                </p>
+              )}
+              {selectedStudent.createdAt && (
+                <p>
+                  <span className="font-semibold">Signup Date:</span>{" "}
+                  {new Date(selectedStudent.createdAt).toLocaleDateString()}
+                </p>
+              )}
+            </div>
+
+            <div className="text-right mt-6">
+              <button
+                onClick={() => setSelectedStudent(null)}
+                className="bg-gray-600 text-white rounded px-4 py-2 hover:bg-gray-700"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
-      {/* ✅ Confirm Action Modal */}
+      {/* Confirm Action Modal */}
       {confirmAction && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-40">
           <div className="bg-white rounded p-6 w-80">
