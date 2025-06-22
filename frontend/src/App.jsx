@@ -14,6 +14,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageCourse from "./pages/admin/CourseManagementPage";
 import TeacherRegistrationPage from "./pages/admin/TeacherRegistrationPage";
 import PaymentVerification from "./pages/admin/PaymentVerification";
+import ManageUsers from "./pages/admin/ManageUsers";
 
 
 //student dashboard
@@ -25,6 +26,17 @@ import StudentFeedback from './pages/student/StudentFeedback';
 import StudentChatbot from './pages/student/StudentChatbot';
 import StudentCourseDetail from "./pages/student/StudentCourseDetail";
 import StudentProfile from './pages/student/StudentProfile';
+
+//teacher dashboard
+import TeacherProfile from "./pages/teacher/TeacherProfile";
+import TeacherAnnouncements from "./pages/teacher/TeacherAnnouncements";
+import LectureMaterials from "./pages/teacher/LectureMaterials";
+import StudentSubmissions from "./pages/teacher/StudentSubmissions";
+import CourseFeedback from "./pages/teacher/CourseFeedback";
+import TeacherLayout from "./layouts/TeacherLayout";
+import TeacherCourses from './pages/teacher/TeacherCourses';
+import TeacherCourseInfo from './pages/teacher/TeacherCourseInfo';
+
 
 
 function App() {
@@ -60,10 +72,23 @@ function App() {
           path="/teacher"
           element={
             <ProtectedRoute role="teacher">
-              <TeacherDashboard />
+              <TeacherLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<TeacherDashboard />} />
+          <Route path="profile" element={<TeacherProfile />} />
+          <Route path="announcements" element={<TeacherAnnouncements />} />
+          <Route path="lecturematerials" element={<LectureMaterials />} />
+          <Route path="submissions" element={<StudentSubmissions />} />
+          <Route path="feedback" element={<CourseFeedback />} />
+          <Route path="mycourses" element={<TeacherCourses />} />
+
+          <Route path="/teacher/course/:id" element={<TeacherCourseInfo />} />
+
+          
+
+        </Route>
         <Route
           path="/admin"
           element={
@@ -82,6 +107,7 @@ function App() {
             path="enrollment-approvals"
             element={<PaymentVerification />}
           />
+          <Route path="manage-users" element={<ManageUsers />} />
 
           {/* Add other nested routes here */}
         </Route>

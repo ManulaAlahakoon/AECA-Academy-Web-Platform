@@ -151,6 +151,19 @@ const CourseManagementPage = () => {
               className="w-full border border-gray-300 p-3 rounded"
             />
           </div>
+
+          <div className="mb-4">
+            <label className="block mb-1 font-semibold">Monthly Fee</label>
+            <input
+              type="number"
+              name="monthlyFee"
+              value={form.monthlyFee}
+              onChange={handleChange}
+              className="w-full border border-gray-300 p-3 rounded"
+              placeholder="Enter course monthly fee"
+            />
+          </div>
+
           <div className="mb-4">
             <label className="block mb-1 font-semibold">Assigned Teacher</label>
             <select
@@ -195,7 +208,7 @@ const CourseManagementPage = () => {
         </form>
 
         <h2 className="text-2xl font-bold mb-4">Courses List</h2>
-        <table className="min-w-full bg-white border rounded">
+        {/* <table className="min-w-full bg-white border rounded">
           <thead className="bg-[#800000] text-white">
             <tr>
               <th className="border p-2">Name</th>
@@ -210,6 +223,49 @@ const CourseManagementPage = () => {
                 <td className="border p-2 break-words">{course.name}</td>
                 <td className="border p-2">
                   {course.assignedTeacher ? course.assignedTeacher.name : "N/A"}
+                </td>
+                <td className="border p-2">
+                  {course.isEnabled ? "Enabled" : "Disabled"}
+                </td>
+                <td className="border p-2">
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleToggle(course._id)}
+                      className="w-24 bg-[#800000] hover:bg-[#660000] text-white px-3 py-1 rounded font-semibold"
+                    >
+                      {course.isEnabled ? "Disable" : "Enable"}
+                    </button>
+                    <button
+                      onClick={() => handleEdit(course)}
+                      className="w-24 bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded font-semibold"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table> */}
+        <table className="min-w-full bg-white border rounded">
+          <thead className="bg-[#800000] text-white">
+            <tr>
+              <th className="border p-2">Name</th>
+              <th className="border p-2">Teacher</th>
+              <th className="border p-2">Monthly Fee</th> {/* New column */}
+              <th className="border p-2">Status</th>
+              <th className="border p-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {courses.map((course) => (
+              <tr key={course._id} className="hover:bg-gray-50">
+                <td className="border p-2 break-words">{course.name}</td>
+                <td className="border p-2">
+                  {course.assignedTeacher?.name || "N/A"}
+                </td>
+                <td className="border p-2">
+                  {course.monthlyFee ? `$${course.monthlyFee}` : "Not set"}
                 </td>
                 <td className="border p-2">
                   {course.isEnabled ? "Enabled" : "Disabled"}

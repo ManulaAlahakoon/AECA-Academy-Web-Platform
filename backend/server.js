@@ -7,6 +7,9 @@ import adminRoutes from './routes/admin.route.js'
 import courseRoutes from './routes/course.route.js';  
 import { authenticateToken } from './middlewares/auth.middleware.js';
 import enrollmentRoutes from './routes/enrollment.route.js';
+import teacherRoutes from './routes/teacher.route.js';
+import { checkUserEnabled } from "./middlewares/checkUserEnabled.middleware.js";
+
 // Risna
 import profileRoutes from './routes/profile.route.js';
  
@@ -24,6 +27,12 @@ app.use(express.json())
 //export const register =
 
 app.use("/api/user", userRoutes)
+app.use("/api/admin",authenticateToken,  adminRoutes)
+app.use('/api/courses', authenticateToken,checkUserEnabled, courseRoutes);  // /api/courses
+app.use('/api/enrollment', authenticateToken,checkUserEnabled, enrollmentRoutes);
+
+//teacher routes
+app.use('/api/teacher', authenticateToken,checkUserEnabled, teacherRoutes);
 app.use("/api/admin",authenticateToken, adminRoutes)
 app.use('/api/courses', authenticateToken, courseRoutes);  // /api/courses
 app.use('/api/enrollment', authenticateToken, enrollmentRoutes);
@@ -37,6 +46,9 @@ app.use('/api/profile', authenticateToken, profileRoutes);
 
 //Image 
 app.use('/uploads', express.static('uploads'));
+
+
+
 
 
 
