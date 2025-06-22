@@ -35,6 +35,9 @@ app.use('/uploads', express.static('uploads'));
 
 
 
+
+
+
 app.get("/user", (req, res) => {
    res.send("Server is ready") 
 })

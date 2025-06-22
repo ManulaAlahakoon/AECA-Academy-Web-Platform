@@ -2,24 +2,75 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+// export const register = async (req, res) => {
+//     const { name, email, password, role } = req.body;
+  
+//     if (!name || !email || !password || !role) {
+//       return res.status(400).json({ success: false, message: "Please provide all fields" });
+//     }
+  
+//     try {
+//       const hashedPassword = await bcrypt.hash(password, 10);
+//       const user = new User({ name, email, password: hashedPassword, role });
+//       console.log(user)
+//       await user.save();
+//       res.status(201).json({ success: true, message: 'User registered' });
+//     } catch (error) {
+//       console.error("Error in Register user: ", error.message);
+//       res.status(500).json({ success: false, message: "Server Error" });
+//     }
+// };
+
+// User Controller
 export const register = async (req, res) => {
-    const { name, email, password, role } = req.body;
-  
-    if (!name || !email || !password || !role) {
-      return res.status(400).json({ success: false, message: "Please provide all fields" });
+  const {
+    name,
+    email,
+    password,
+    role,
+    dateOfBirth,
+    phone,
+    address,
+    country,
+    occupation,
+    bio,
+  } = req.body;
+
+  if (!name || !email || !password || !role) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Please provide required fields" });
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const userData = {
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    };
+    // Optional fields
+    if (dateOfBirth) userData.dateOfBirth = dateOfBirth;
+    if (phone) userData.phone = phone;
+    if (address) userData.address = address;
+    if (country) userData.country = country;
+    if (occupation) userData.occupation = occupation;
+    if (bio) userData.bio = bio;
+
+    if (req.file) {
+      userData.profilePicture = req.file.path;
     }
-  
-    try {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const user = new User({ name, email, password: hashedPassword, role });
-      console.log(user)
-      await user.save();
-      res.status(201).json({ success: true, message: 'User registered' });
-    } catch (error) {
-      console.error("Error in Register user: ", error.message);
-      res.status(500).json({ success: false, message: "Server Error" });
-    }
+
+    const user = new User(userData);
+    await user.save();
+    res.status(201).json({ success: true, message: "User registered" });
+  } catch (error) {
+    console.error("Error in Register user:", error.message);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
 };
+
   
 export const login = async (req, res) => {
   const { email, password } = req.body;

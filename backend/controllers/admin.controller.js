@@ -213,7 +213,7 @@ export const getEnrolledStudentsByCourse = async (req, res) => {
 
   try {
     const enrollments = await Enrollment.find({ course: courseId, status: "approved" })
-      .populate("student", "name email role isEnabled createdAt"); 
+      .populate("student", "name email role dateOfBirth phone address country occupation bio profilePicture isEnabled createdAt"); 
 
     const students = enrollments.map((e) => e.student);
     res.json({ success: true, students });
