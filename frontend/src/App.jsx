@@ -30,17 +30,33 @@ import StudentFeedback from './pages/student/StudentFeedback';
 import StudentChatbot from './pages/student/StudentChatbot';
 import StudentCourseDetail from "./pages/student/StudentCourseDetail";
 
-
+//teacher dashboard
+import TeacherProfile from "./pages/teacher/TeacherProfile";
+import TeacherAnnouncements from "./pages/teacher/TeacherAnnouncements";
+import LectureMaterials from "./pages/teacher/LectureMaterials";
+import StudentSubmissions from "./pages/teacher/StudentSubmissions";
+import CourseFeedback from "./pages/teacher/CourseFeedback";
+import TeacherLayout from "./layouts/TeacherLayout";
+import TeacherCourses from './pages/teacher/TeacherCourses';
+import Events from './pages/home/Events';
+import FAQ from './pages/home/FAQ';
+import WhyChooseUs from './pages/home/WhyChooseUs';
+import Staff from './pages/home/Staff';
 function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/why-choose-us" element={<WhyChooseUs />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/features" element={<FeaturePage />} />
         <Route path="/courses" element={<CoursePage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/staff" element={<Staff />} />
+
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -69,10 +85,20 @@ function App() {
           path="/teacher"
           element={
             <ProtectedRoute role="teacher">
-              <TeacherDashboard />
+              <TeacherLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<TeacherDashboard />} />
+          <Route path="profile" element={<TeacherProfile />} />
+          <Route path="announcements" element={<TeacherAnnouncements />} />
+          <Route path="lecturematerials" element={<LectureMaterials />} />
+          <Route path="submissions" element={<StudentSubmissions />} />
+          <Route path="feedback" element={<CourseFeedback />} />
+          <Route path="mycourses" element={<TeacherCourses />} />
+          
+
+        </Route>
         <Route
           path="/admin"
           element={
@@ -92,7 +118,7 @@ function App() {
             element={<PaymentVerification />}
           />
 
-          {/* Add other nested routes here */}
+          
         </Route>
       </Routes>
     </AuthProvider>

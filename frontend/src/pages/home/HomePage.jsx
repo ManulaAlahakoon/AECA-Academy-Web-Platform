@@ -1,47 +1,36 @@
 import React from 'react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import HeroImage from '../../assets/img1.jpg';
+import HeroImage from '../../assets/img1.jpg'; // your actual image path
 
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
 
-      {/* Main Section */}
-      <main className="transform scale-105 flex flex-col-reverse md:flex-row flex-1 px-10 md:px-20 py-6 mt-10">
-        {/* Text Content */}
-        <div className="md:w-1/2 flex items-center justify-center">
-          <div className="space-y-6 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#800000] uppercase">
-              Academy of English for Career Advancement
-            </h2>
-            <p className="text-gray-700 text-lg">
-              Welcome to AECA Academy! Explore a smarter way to learn with both physical and online classes. Access courses, submit assignments, 
-              and get support through our English-learning chatbot. Sign up now and start your journey!
+      {/* Push content below fixed navbar */}
+      <div className="pt-[180px]">
+        {/* Text Left, Image Right */}
+        <section className="flex flex-col md:flex-row items-center justify-between px-6 md:px-20 py-12 gap-x-12">
+          {/* Text - Left */}
+          <div className="md:w-1/2 mb-8 md:mb-0 text-justify">
+            <p className="text-base md:text-lg text-gray-800 leading-relaxed">
+              AECA is a premier English language academy dedicated to helping individuals achieve their language goals, whether for academic pursuits, professional advancement, or personal enrichment.
+              <br /><br />
+              Our comprehensive programs focus on international exam preparation, English for non-native speakers, and essential English skills required for career enhancement.
             </p>
-            <div className="flex space-x-4 justify-center">
-              <a
-                href="/login"
-                className="w-24 text-center px-6 py-2 text-sm rounded-md border border-[#800000] text-white bg-[#800000] hover:opacity-90 transition"
-              >
-                Login
-              </a>
-              <a
-                href="/register"
-                className="w-24 text-center px-6 py-2 text-sm rounded-md border border-[#800000] text-white bg-[#800000] hover:opacity-90 transition"
-              >
-                Register
-              </a>
-            </div>
           </div>
-        </div>
 
-        {/*Image Section */}
-        <div className="md:w-1/2 mb-10 md:mb-0 flex justify-center">
-          <img src={HeroImage} alt="AECA Hero" className="w-full max-w-md rounded-md object-contain" />
-        </div>
-      </main>
+          {/* Image - Right */}
+          <div className="md:w-1/2 mt-0 md:mt-6">
+            <img
+              src={HeroImage}
+              alt="AECA Academy"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        </section>
+      </div>
 
       <Footer />
     </div>

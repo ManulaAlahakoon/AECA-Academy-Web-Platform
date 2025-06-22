@@ -1,75 +1,69 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/logo.png';
+import Logo from '../assets/logo.jpg';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const tabs = ['Home', 'About', 'Features', 'Courses', 'Contact', 'Login', 'Register'];
-
-  const toggleMenu = () => setIsOpen(!isOpen);
-
   return (
-    <header className="bg-[#F3E8E8] px-6 py-2 shadow-sm">
-      <div className="flex justify-between items-center">
-        {/* Logo */}
-        <img src={Logo} alt="AECA Logo" className="h-[80px] w-auto object-contain" />
-
-        {/* Hamburger Icon */}
-        <div className="md:hidden">
-          <button onClick={toggleMenu} className="text-[#800000] focus:outline-none">
-            <svg
-              className="w-8 h-8"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {isOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
-              )}
-            </svg>
-          </button>
+    <header className="w-full fixed top-0 left-0 z-50 bg-white shadow">
+      {/* Top Maroon Bar */}
+      <div className="bg-[#7c0000] text-white text-sm py-4 px-6 flex justify-between items-center font-bold">
+        <div className="flex space-x-6">
+          <Link to="/events" className="hover:text-[#FFD700] transition">Events</Link>
+          <Link to="/faq" className="hover:text-[#FFD700] transition">FAQs</Link>
+          <Link to="/why-choose-us" className="hover:text-[#FFD700] transition">Why Choose Us</Link>
         </div>
-
-        {/* Desktop Tabs */}
-        <nav className="hidden md:flex space-x-3 items-center">
-          {tabs.map((item, index) => (
-            <Link
-              key={item}
-              to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-              className={`w-24 text-center px-4 py-2 text-sm rounded-md border transition duration-200 ${
-                index < 5
-                  ? 'border-[#800000] text-[#800000] bg-[#F3E8E8] hover:bg-[#800000] hover:text-white'
-                  : 'border-[#800000] text-white bg-[#800000] hover:opacity-90'
-              }`}
-            >
-              {item}
-            </Link>
-          ))}
-        </nav>
+        <div className="flex space-x-6">
+          <Link
+            to="https://www.google.com/maps/place/IELTS+%7C+PTE+by+AECA+(Academy+of+English+for+Career+Advancement)/@6.8864052,79.965568,17z"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#FFD700] transition"
+          >
+            Location
+          </Link>
+          <Link to="/contact" className="hover:text-[#FFD700] transition">Contact</Link>
+        </div>
       </div>
 
-      {/* Mobile Dropdown */}
-      {isOpen && (
-        <div className="md:hidden mt-4 flex flex-col space-y-2">
-          {tabs.map((item, index) => (
+      {/* Middle Logo Bar */}
+      <div className="bg-white py-4 flex justify-center items-center border-b border-[#7c0000]">
+        <img src={Logo} alt="AECA Logo" className="h-[80px] object-contain" />
+      </div>
+
+      {/* Bottom Navigation Bar */}
+      <nav className="bg-white px-6 py-3 border-b border-[#7c0000] flex justify-center font-medium text-[#233651] text-sm">
+        <div className="flex space-x-6 items-center">
+          {[
+            { label: 'Home', path: '/' },
+            { label: 'About', path: '/about' },
+            { label: 'Courses', path: '/courses' },
+            { label: 'Features', path: '/features' },
+            { label: 'Staff', path: '/staff' }, 
+          ].map((item, i) => (
             <Link
-              key={item}
-              to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-              className={`text-center px-4 py-2 text-sm rounded-md border transition duration-200 ${
-                index < 5
-                  ? 'border-[#800000] text-[#800000] bg-[#F3E8E8] hover:bg-[#800000] hover:text-white'
-                  : 'border-[#800000] text-white bg-[#800000] hover:opacity-90'
-              }`}
-              onClick={() => setIsOpen(false)} // close menu on click
+              key={i}
+              to={item.path}
+              className="hover:text-[#7c0000] transition"
             >
-              {item}
+              {item.label}
             </Link>
           ))}
+
+          {/* Login and Register Buttons */}
+          <Link
+            to="/login"
+            className="px-4 py-1 border border-[#7c0000] text-[#7c0000] hover:bg-[#7c0000] hover:text-white transition rounded"
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            className="px-4 py-1 border border-[#7c0000] text-[#7c0000] hover:bg-[#7c0000] hover:text-white transition rounded"
+          >
+            Register
+          </Link>
         </div>
-      )}
+      </nav>
     </header>
   );
 };
