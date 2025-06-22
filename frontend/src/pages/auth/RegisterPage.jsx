@@ -1,4 +1,3 @@
-// src/pages/Auth/RegisterPage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../../services/api";
@@ -10,13 +9,47 @@ const RegisterPage = () => {
     password: "",
     role: "student",
   });
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  const handleChange = (e) =>
+  const validate = () => {
+    const errs = {};
+
+    if (!form.name.trim() || form.name.trim().length < 3) {
+      errs.name = "Name must be at least 3 characters";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!form.email.trim() || !emailRegex.test(form.email)) {
+      errs.email = "Invalid email address";
+    }
+
+    // Password validation: min 6 chars, uppercase, special symbol
+    if (!form.password) {
+      errs.password = "Password is required";
+    } else {
+      if (form.password.length < 6) {
+        errs.password = "Password must be at least 6 characters";
+      } else if (!/[A-Z]/.test(form.password)) {
+        errs.password = "Password must contain at least one uppercase letter";
+      } else if (!/[^A-Za-z0-9]/.test(form.password)) {
+        errs.password = "Password must contain at least one special character";
+      }
+    }
+
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
+
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) return;
+
     try {
       await apiFetch("/api/user/register", {
         method: "POST",
@@ -35,33 +68,57 @@ const RegisterPage = () => {
         <h2 className="text-2xl font-bold text-center mb-6 text-[#800000]">
           Register New User
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            name="name"
-            onChange={handleChange}
-            value={form.name}
-            placeholder="Name"
-            className="w-full p-3 border border-[#800000] rounded focus:outline-none focus:border-[#660000]"
-            required
-          />
-          <input
-            name="email"
-            type="email"
-            onChange={handleChange}
-            value={form.email}
-            placeholder="Email"
-            className="w-full p-3 border border-[#800000] rounded focus:outline-none focus:border-[#660000]"
-            required
-          />
-          <input
-            name="password"
-            type="password"
-            onChange={handleChange}
-            value={form.password}
-            placeholder="Password"
-            className="w-full p-3 border border-[#800000] rounded focus:outline-none focus:border-[#660000]"
-            required
-          />
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+          <div>
+            <input
+              name="name"
+              onChange={handleChange}
+              value={form.name}
+              placeholder="Name"
+              className={`w-full p-3 border rounded focus:outline-none focus:border-[#660000] ${
+                errors.name ? "border-red-500" : "border-[#800000]"
+              }`}
+              required
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            )}
+          </div>
+
+          <div>
+            <input
+              name="email"
+              type="email"
+              onChange={handleChange}
+              value={form.email}
+              placeholder="Email"
+              className={`w-full p-3 border rounded focus:outline-none focus:border-[#660000] ${
+                errors.email ? "border-red-500" : "border-[#800000]"
+              }`}
+              required
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
+          </div>
+
+          <div>
+            <input
+              name="password"
+              type="password"
+              onChange={handleChange}
+              value={form.password}
+              placeholder="Password"
+              className={`w-full p-3 border rounded focus:outline-none focus:border-[#660000] ${
+                errors.password ? "border-red-500" : "border-[#800000]"
+              }`}
+              required
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
+          </div>
+
           <select
             name="role"
             onChange={handleChange}
@@ -72,6 +129,7 @@ const RegisterPage = () => {
             <option value="teacher">Teacher</option>
             <option value="admin">Admin</option>
           </select>
+
           <button
             type="submit"
             className="w-full bg-[#800000] hover:bg-[#660000] text-white py-3 rounded font-semibold"
