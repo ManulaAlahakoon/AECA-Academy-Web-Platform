@@ -6,7 +6,7 @@ import Enrollment from '../models/enrollement.model.js';
 // Create a new course
 export const createCourse = async (req, res) => {
   try {
-    const { name, description, image, assignedTeacher } = req.body;
+    const { name, description, image, assignedTeacher, monthlyFee } = req.body;
 
     if (!name || !assignedTeacher) {
       return res.status(400).json({ success: false, message: 'Name and assigned teacher are required' });
@@ -21,7 +21,8 @@ export const createCourse = async (req, res) => {
       name,
       description,
       image,
-      assignedTeacher
+      assignedTeacher,
+      monthlyFee
     });
 
     await newCourse.save();
@@ -49,7 +50,7 @@ export const getCourses = async (req, res) => {
 export const updateCourse = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, image, assignedTeacher, isEnabled } = req.body;
+    const { name, description, image, assignedTeacher, isEnabled, monthlyFee } = req.body;
 
     const course = await Course.findById(id);
     if (!course) {
@@ -68,7 +69,7 @@ export const updateCourse = async (req, res) => {
     course.description = description ?? course.description;
     course.image = image ?? course.image;
     course.isEnabled = isEnabled ?? course.isEnabled;
-
+    course.monthlyFee = monthlyFee ?? course.monthlyFee;      
     await course.save();
     res.status(200).json({ success: true, message: 'Course updated', course });
   } catch (error) {
