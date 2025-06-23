@@ -13,7 +13,7 @@ import teacherAnnouncementRoutes from "./routes/teacherAnnouncement.routes.js";
 import studentAnnouncementRoutes from "./routes/studentAnnouncement.routes.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-
+import studentRoutes from './routes/student.route.js';
 // import User from './models/user.model.js';
 // import bcrypt from 'bcrypt';
 
@@ -42,15 +42,13 @@ app.use("/LectureMaterials", express.static(path.join(process.cwd(), "uploads/Le
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-app.use(
-  "/LectureMaterials",
-  express.static(path.join(__dirname, "uploads", "LectureMaterials"))
-);
-app.use("/assignments", express.static(path.join(process.cwd(), "uploads/assignments")));
+app.use('/LectureMaterials', express.static(path.join(__dirname, 'uploads/LectureMaterials')));
+app.use('/assignments', express.static(path.join(__dirname, 'uploads/assignments')));
+
 
 //student routes
 app.use("/api/student", studentAnnouncementRoutes);
-
+app.use('/api/student', studentRoutes);
 
 app.get("/user", (req, res) => {
    res.send("Server is ready") 

@@ -19,8 +19,8 @@ const StudentCourses = () => {
     }
   };
 
-  const handleClick = (courseId) => {
-    navigate(`/student/course/${courseId}`);
+  const handleClick = (courseId, courseName) => {
+    navigate(`/student/course/${courseId}/${courseName}`);
   };
 
   return (
@@ -33,7 +33,7 @@ const StudentCourses = () => {
         {courses.map((course) => (
           <div
             key={course._id}
-            onClick={() => handleClick(course._id)}
+            onClick={() => handleClick(course._id, course.name)}
             className="cursor-pointer bg-white p-4 shadow rounded hover:shadow-lg transition"
           >
             <img
@@ -48,6 +48,7 @@ const StudentCourses = () => {
               Instructor: {course.assignedTeacher?.name || "TBD"}
             </p>
             <p className="text-gray-700 text-sm">{course.description}</p>
+          
           </div>
         ))}
       </div>

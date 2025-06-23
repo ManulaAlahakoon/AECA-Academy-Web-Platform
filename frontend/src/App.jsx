@@ -29,6 +29,7 @@ import StudentAnnouncements from './pages/student/StudentAnnouncements';
 import StudentFeedback from './pages/student/StudentFeedback';
 import StudentChatbot from './pages/student/StudentChatbot';
 import StudentCourseDetail from "./pages/student/StudentCourseDetail";
+import StudentMaterials from "./pages/student/StudentAssignments";
 
 //teacher dashboard
 import TeacherProfile from "./pages/teacher/TeacherProfile";
@@ -70,7 +71,8 @@ function App() {
           <Route path="feedback" element={<StudentFeedback />} />
           <Route path="chatbot" element={<StudentChatbot />} />
 
-          <Route path="course/:id" element={<StudentCourseDetail />} />
+          <Route path="course/:id/:name" element={<StudentCourseDetail />} />
+          <Route path="materials/:courseName" element={<StudentMaterials />} />
           {/* Add other student pages here */}
         </Route>
 
