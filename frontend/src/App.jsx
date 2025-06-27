@@ -2,6 +2,11 @@ import './App.css'
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import HomePage from './pages/home/HomePage';
+import AboutPage from './pages/home/AboutPage';
+import FeaturePage from './pages/home/FeaturePage';
+import CoursePage from './pages/home/CoursePage';
+import ContactPage from './pages/home/ContactPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import ForgotPassword from './pages/auth/ForgotPassword';
@@ -25,6 +30,8 @@ import StudentAnnouncements from './pages/student/StudentAnnouncements';
 import StudentFeedback from './pages/student/StudentFeedback';
 import StudentChatbot from './pages/student/StudentChatbot';
 import StudentCourseDetail from "./pages/student/StudentCourseDetail";
+import StudentMaterials from "./pages/student/StudentAssignments";
+
 //teacher dashboard
 import TeacherProfile from "./pages/teacher/TeacherProfile";
 import TeacherAnnouncements from "./pages/teacher/TeacherAnnouncements";
@@ -39,6 +46,12 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/features" element={<FeaturePage />} />
+        <Route path="/courses" element={<CoursePage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -59,7 +72,8 @@ function App() {
           <Route path="feedback" element={<StudentFeedback />} />
           <Route path="chatbot" element={<StudentChatbot />} />
 
-          <Route path="course/:id" element={<StudentCourseDetail />} />
+          <Route path="course/:id/:name" element={<StudentCourseDetail />} />
+          <Route path="materials/:courseName" element={<StudentMaterials />} />
           {/* Add other student pages here */}
         </Route>
 
@@ -78,10 +92,11 @@ function App() {
           <Route path="submissions" element={<StudentSubmissions />} />
           <Route path="feedback" element={<CourseFeedback />} />
           <Route path="mycourses" element={<TeacherCourses />} />
+          //tharushi-1
+          <Route path="/teacher/course/:courseId/materials" element={<LectureMaterials />} />
 
+          //dev
           <Route path="/teacher/course/:id" element={<TeacherCourseInfo />} />
-
-          
 
         </Route>
         <Route
@@ -104,7 +119,7 @@ function App() {
           />
           <Route path="manage-users" element={<ManageUsers />} />
 
-          {/* Add other nested routes here */}
+          
         </Route>
       </Routes>
     </AuthProvider>

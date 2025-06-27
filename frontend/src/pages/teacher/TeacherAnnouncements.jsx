@@ -1,43 +1,102 @@
 // src/pages/teacher/TeacherAnnouncements.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { apiFetch } from "../../services/api";
 
 const TeacherAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [course, setCourse] = useState("");
   const [message, setMessage] = useState("");
+  const [courses, setCourses] = useState([]);
 
-  const handlePost = (e) => {
-    e.preventDefault();
-    if (!message || !course) return;
-
-    const newAnnouncement = {
-      id: Date.now(),
-      course,
-      message,
-      date: new Date(),
+  // Fetch assigned+enabled courses on mount
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await apiFetch("/api/teacher/courses");
+        if (res.success && res.courses) {
+          setCourses(res.courses);
+        }
+      } catch (error) {
+        console.error("Failed to fetch teacher courses:", error);
+      }
     };
 
-    setAnnouncements([newAnnouncement, ...announcements]);
+    fetchCourses();
+  }, []);
+  useEffect(() => {
+  const fetchMyAnnouncements = async () => {
+    try {
+      const res = await apiFetch("/api/teacher/announcements"); // 👈 Make sure token is passed
+      if (res.success && res.announcements) {
+        setAnnouncements(res.announcements);
+      }
+    } catch (error) {
+      console.error("Failed to fetch my announcements:", error);
+    }
+  };
+
+  fetchMyAnnouncements();
+}, []);
+
+const handlePost = async (e) => {
+  e.preventDefault();
+  if (!message || !course) return;
+
+  try {
+    // Send to DB via backend
+    const res = await apiFetch("/api/teacher/announcements", {
+      method: "POST",
+      body: JSON.stringify({ course, message }),
+    });
+
+    const newAnnouncement = res.announcement; // saved from DB response
+
+    // Add it to state to update UI
+    setAnnouncements((prev) => [newAnnouncement, ...prev]);
+
+    // Clear form
     setMessage("");
     setCourse("");
-  };
+  } catch (error) {
+    console.error("Failed to post announcement:", error);
+    alert("Failed to post announcement: " + error.message);
+  }
+};
 
-  const handleDelete = (id) => {
-    setAnnouncements(announcements.filter((a) => a.id !== id));
-  };
+ const handleDelete = async (id) => {
+  try {
+    const res = await apiFetch(`/api/teacher/announcements/${id}`, {
+      method: "DELETE",
+    });
 
-  // Sort all posts by date (newest first)
-  const sortedPosts = [...announcements].sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
-  );
+    if (res.success) {
+      setAnnouncements((prev) => prev.filter((a) => a._id !== id));
+    } else {
+      alert("Delete failed: " + res.message);
+    }
+  } catch (error) {
+    console.error("Delete error:", error);
+    alert("Server error while deleting announcement.");
+  }
+};
 
-  const today = new Date().toDateString();
-  const recentPosts = sortedPosts.filter(
-    (a) => new Date(a.date).toDateString() === today
-  );
-  const previousPosts = sortedPosts.filter(
+const today = new Date().toDateString();
+const sortedPosts = [...announcements].sort(
+  (a, b) => new Date(b.date) - new Date(a.date)
+);
+
+const todayPosts = sortedPosts.filter(
+  (a) => new Date(a.date).toDateString() === today
+);
+const recentPosts = todayPosts.slice(0, 5); // Only the 5 most recent from today
+const overflowToday = todayPosts.slice(5);
+
+const previousPosts = [
+  ...overflowToday,
+  ...sortedPosts.filter(
     (a) => new Date(a.date).toDateString() !== today
-  );
+  ),
+];
 
   return (
     <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow">
@@ -57,8 +116,11 @@ const TeacherAnnouncements = () => {
             className="w-full border px-3 py-2 rounded"
           >
             <option value="">-- Choose Course --</option>
-            <option value="IELTS">IELTS</option>
-            <option value="PTE">PTE</option>
+            {courses.map((c) => (
+              <option key={c._id} value={c.name}>
+                {c.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -78,7 +140,9 @@ const TeacherAnnouncements = () => {
         <button
           type="submit"
           className="bg-[#800000] hover:bg-[#990000] text-white font-plain px-4 py-2 rounded shadow transition"
-        >Post</button>
+        >
+          Post
+        </button>
       </form>
 
       {/* Recent Announcements */}
@@ -91,7 +155,7 @@ const TeacherAnnouncements = () => {
         <ul className="space-y-4 mb-6">
           {recentPosts.map((ann) => (
             <li
-              key={ann.id}
+              key={ann._id}
               className="bg-gray-50 border p-4 rounded relative shadow-sm"
             >
               <p className="text-sm text-maroon-800 font-semibold">
@@ -99,7 +163,7 @@ const TeacherAnnouncements = () => {
               </p>
               <p className="text-gray-700 mt-1">{ann.message}</p>
               <button
-                onClick={() => handleDelete(ann.id)}
+                onClick={() => handleDelete(ann._id)}
                 className="absolute top-2 right-2 text-red-600 text-sm hover:underline"
               >
                 Delete
@@ -119,7 +183,7 @@ const TeacherAnnouncements = () => {
         <ul className="space-y-4">
           {previousPosts.map((ann) => (
             <li
-              key={ann.id}
+              key={ann._id}
               className="bg-gray-100 border p-4 rounded relative shadow-sm"
             >
               <p className="text-sm text-maroon-800 font-semibold">
@@ -127,7 +191,7 @@ const TeacherAnnouncements = () => {
               </p>
               <p className="text-gray-700 mt-1">{ann.message}</p>
               <button
-                onClick={() => handleDelete(ann.id)}
+                onClick={() => handleDelete(ann._id)}
                 className="absolute top-2 right-2 text-red-600 text-sm hover:underline"
               >
                 Delete

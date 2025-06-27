@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from "path";
 import { connectDB } from './config/db.js'
 import userRoutes from './routes/user.route.js'
 import adminRoutes from './routes/admin.route.js'
@@ -8,6 +9,13 @@ import courseRoutes from './routes/course.route.js';
 import { authenticateToken } from './middlewares/auth.middleware.js';
 import enrollmentRoutes from './routes/enrollment.route.js';
 import teacherRoutes from './routes/teacher.route.js';
+
+import teacherAnnouncementRoutes from "./routes/teacherAnnouncement.routes.js";
+import studentAnnouncementRoutes from "./routes/studentAnnouncement.routes.js";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import studentRoutes from './routes/student.route.js';
+
 import { checkUserEnabled } from "./middlewares/checkUserEnabled.middleware.js";
 
 // import User from './models/user.model.js';
@@ -30,12 +38,24 @@ app.use('/api/enrollment', authenticateToken,checkUserEnabled, enrollmentRoutes)
 //teacher routes
 app.use('/api/teacher', authenticateToken,checkUserEnabled, teacherRoutes);
 
+//teacher routes
+app.use('/api/teacher', authenticateToken, teacherRoutes);
+app.use("/api", teacherAnnouncementRoutes);
 //Image 
 app.use('/uploads', express.static('uploads'));
+// Serve uploaded files
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+app.use("/LectureMaterials", express.static(path.join(process.cwd(), "uploads/LectureMaterials")));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use('/LectureMaterials', express.static(path.join(__dirname, 'uploads/LectureMaterials')));
+app.use('/assignments', express.static(path.join(__dirname, 'uploads/assignments')));
 
 
-
-
+//student routes
+app.use("/api/student", studentAnnouncementRoutes);
+app.use('/api/student', studentRoutes);
 
 
 app.get("/user", (req, res) => {
