@@ -1,6 +1,10 @@
+// src/pages/Auth/RegisterPage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../../services/api";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import RegisterImage from "../../assets/register.png";
 
 const RegisterPage = () => {
   const [form, setForm] = useState({
@@ -24,7 +28,6 @@ const RegisterPage = () => {
       errs.email = "Invalid email address";
     }
 
-    // Password validation: min 6 chars, uppercase, special symbol
     if (!form.password) {
       errs.password = "Password is required";
     } else {
@@ -63,82 +66,88 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6 text-[#800000]">
-          Register New User
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-          <div>
-            <input
-              name="name"
-              onChange={handleChange}
-              value={form.name}
-              placeholder="Name"
-              className={`w-full p-3 border rounded focus:outline-none focus:border-[#660000] ${
-                errors.name ? "border-red-500" : "border-[#800000]"
-              }`}
-              required
-            />
-            {errors.name && (
-              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-            )}
+    <>
+      <Navbar />
+      <div className="flex flex-col md:flex-row min-h-screen bg-white pt-58 px-4 md:px-8">
+        {/* Left Image */}
+        <div className="md:w-1/2 w-full flex items-center justify-center mb-8 md:mb-0 md:justify-end md:pr-6">
+          <img
+            src={RegisterImage}
+            alt="Register"
+            className="max-w-[350px] w-full h-auto object-contain"
+          />
+        </div>
+
+        {/* Right Form */}
+        <div className="md:w-1/2 w-full flex items-center justify-center md:justify-start">
+          <div className="w-full max-w-sm px-2">
+            <h2 className="text-3xl font-bold text-center mb-8 text-[#800000]">
+              Register
+            </h2>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <input
+                name="name"
+                type="text"
+                onChange={handleChange}
+                value={form.name}
+                placeholder="Name"
+                className="w-full p-2 border-b border-gray-300 text-base focus:outline-none focus:border-b-2 focus:border-[#800000] placeholder-gray-500"
+                required
+              />
+              {errors.name && (
+                <p className="text-red-500 text-sm -mt-4">{errors.name}</p>
+              )}
+
+              <input
+                name="email"
+                type="email"
+                onChange={handleChange}
+                value={form.email}
+                placeholder="Email"
+                className="w-full p-2 border-b border-gray-300 text-base focus:outline-none focus:border-b-2 focus:border-[#800000] placeholder-gray-500"
+                required
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm -mt-4">{errors.email}</p>
+              )}
+
+              <input
+                name="password"
+                type="password"
+                onChange={handleChange}
+                value={form.password}
+                placeholder="Password"
+                className="w-full p-2 border-b border-gray-300 text-base focus:outline-none focus:border-b-2 focus:border-[#800000] placeholder-gray-500"
+                required
+              />
+              {errors.password && (
+                <p className="text-red-500 text-sm -mt-4">{errors.password}</p>
+              )}
+
+              <select
+                name="role"
+                onChange={handleChange}
+                value={form.role}
+                className="w-full p-2 border-b border-gray-300 text-base focus:outline-none focus:border-b-2 focus:border-[#800000]"
+              >
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+                <option value="admin">Admin</option>
+              </select>
+
+              <button
+                type="submit"
+                className="w-full bg-[#800000] hover:bg-[#660000] text-white py-3 rounded text-lg font-semibold transition duration-300"
+              >
+                Register
+              </button>
+            </form>
           </div>
-
-          <div>
-            <input
-              name="email"
-              type="email"
-              onChange={handleChange}
-              value={form.email}
-              placeholder="Email"
-              className={`w-full p-3 border rounded focus:outline-none focus:border-[#660000] ${
-                errors.email ? "border-red-500" : "border-[#800000]"
-              }`}
-              required
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-            )}
-          </div>
-
-          <div>
-            <input
-              name="password"
-              type="password"
-              onChange={handleChange}
-              value={form.password}
-              placeholder="Password"
-              className={`w-full p-3 border rounded focus:outline-none focus:border-[#660000] ${
-                errors.password ? "border-red-500" : "border-[#800000]"
-              }`}
-              required
-            />
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-            )}
-          </div>
-
-          <select
-            name="role"
-            onChange={handleChange}
-            value={form.role}
-            className="w-full p-3 border border-[#800000] rounded focus:outline-none focus:border-[#660000]"
-          >
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-            <option value="admin">Admin</option>
-          </select>
-
-          <button
-            type="submit"
-            className="w-full bg-[#800000] hover:bg-[#660000] text-white py-3 rounded font-semibold"
-          >
-            Register
-          </button>
-        </form>
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
