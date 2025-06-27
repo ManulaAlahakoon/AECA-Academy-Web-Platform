@@ -4,6 +4,7 @@ import LectureMaterial from "../models/lectureMaterial.model.js";
 import fs from "fs";
 import path from "path";
 
+
 export const getAssignedEnabledCourses = async (req, res) => {
   try {
     const teacherId = req.user.id;      
@@ -108,6 +109,7 @@ export const deleteLectureMaterial = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
 // Get students enrolled in a specific course
 // export const getEnrolledStudentsByCourseId = async (req, res) => {
 //   try {

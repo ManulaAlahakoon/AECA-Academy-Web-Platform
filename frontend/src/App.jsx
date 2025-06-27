@@ -19,6 +19,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageCourse from "./pages/admin/CourseManagementPage";
 import TeacherRegistrationPage from "./pages/admin/TeacherRegistrationPage";
 import PaymentVerification from "./pages/admin/PaymentVerification";
+import ManageUsers from "./pages/admin/ManageUsers";
 
 
 //student dashboard
@@ -39,7 +40,7 @@ import StudentSubmissions from "./pages/teacher/StudentSubmissions";
 import CourseFeedback from "./pages/teacher/CourseFeedback";
 import TeacherLayout from "./layouts/TeacherLayout";
 import TeacherCourses from './pages/teacher/TeacherCourses';
-
+import TeacherCourseInfo from './pages/teacher/TeacherCourseInfo';
 
 function App() {
   return (
@@ -91,7 +92,11 @@ function App() {
           <Route path="submissions" element={<StudentSubmissions />} />
           <Route path="feedback" element={<CourseFeedback />} />
           <Route path="mycourses" element={<TeacherCourses />} />
+          //tharushi-1
           <Route path="/teacher/course/:courseId/materials" element={<LectureMaterials />} />
+
+          //dev
+          <Route path="/teacher/course/:id" element={<TeacherCourseInfo />} />
 
         </Route>
         <Route
@@ -112,6 +117,7 @@ function App() {
             path="enrollment-approvals"
             element={<PaymentVerification />}
           />
+          <Route path="manage-users" element={<ManageUsers />} />
 
           
         </Route>

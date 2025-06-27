@@ -139,3 +139,104 @@ export const getCourseEnrollmentChart = async (req, res) => {
     res.status(500).json({ message: "Server error while fetching chart data" });
   }
 };
+
+export const getRecentActivity = async (req, res) => {
+  try {
+    const [recentUsers, recentCourses, recentEnrollments] = await Promise.all([
+      User.find().sort({ createdAt: -1 }).limit(5),
+      Course.find().sort({ createdAt: -1 }).limit(5),
+      Enrollment.find({ status: "approved" })
+        .sort({ updatedAt: -1 })
+        .limit(5)
+        .populate("student")
+        .populate("course"),
+    ]);
+
+    res.json({
+      success: true,
+      data: {
+        users: recentUsers,
+        courses: recentCourses,
+        enrollments: recentEnrollments,
+      },
+    });
+  } catch (err) {
+    console.error("Recent activity error:", err);
+    res.status(500).json({ message: "Failed to fetch recent activity" });
+  }
+};
+
+export const getWeeklySignups = async (req, res) => {
+  try {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6); // includes today
+
+    const data = await User.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: sevenDaysAgo },
+          role: "student"
+        }
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+          },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+
+    // Fill missing days
+    const result = [];
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(sevenDaysAgo);
+      date.setDate(date.getDate() + i);
+      const str = date.toISOString().slice(0, 10);
+      const match = data.find(d => d._id === str);
+      result.push({ date: str, count: match ? match.count : 0 });
+    }
+
+    res.json({ success: true, data: result });
+  } catch (err) {
+    console.error("Weekly signup error:", err);
+    res.status(500).json({ message: "Could not fetch signup stats" });
+  }
+};
+
+// User enabling and disabling
+
+export const getEnrolledStudentsByCourse = async (req, res) => {
+  const { courseId } = req.params;
+
+  try {
+    const enrollments = await Enrollment.find({ course: courseId, status: "approved" })
+      .populate("student", "name email role dateOfBirth phone address country occupation bio profilePicture isEnabled createdAt"); 
+
+    const students = enrollments.map((e) => e.student);
+    res.json({ success: true, students });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching students." });
+  }
+};
+
+export const updateStudentStatus = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user || user.role !== "student") {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    user.isEnabled = !user.isEnabled;
+    await user.save();
+
+    res.json({ success: true, isEnabled: user.isEnabled });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating student status" });
+  }
+
+};

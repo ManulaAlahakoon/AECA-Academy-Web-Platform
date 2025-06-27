@@ -7,6 +7,7 @@ import { getAllLectureMaterialsByTeacher } from '../controllers/teacher.controll
 import { uploadAssignment } from "../middlewares/assignmentUpload.middleware.js";
 import { deleteLectureMaterial } from "../controllers/teacher.controller.js";
 
+
 const router = express.Router();
 
 // GET /api/teacher/courses - Only assigned + enabled

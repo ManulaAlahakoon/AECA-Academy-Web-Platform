@@ -9,11 +9,15 @@ import courseRoutes from './routes/course.route.js';
 import { authenticateToken } from './middlewares/auth.middleware.js';
 import enrollmentRoutes from './routes/enrollment.route.js';
 import teacherRoutes from './routes/teacher.route.js';
+
 import teacherAnnouncementRoutes from "./routes/teacherAnnouncement.routes.js";
 import studentAnnouncementRoutes from "./routes/studentAnnouncement.routes.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import studentRoutes from './routes/student.route.js';
+
+import { checkUserEnabled } from "./middlewares/checkUserEnabled.middleware.js";
+
 // import User from './models/user.model.js';
 // import bcrypt from 'bcrypt';
 
@@ -27,9 +31,12 @@ app.use(express.json())
 //export const register =
 
 app.use("/api/user", userRoutes)
-app.use("/api/admin",authenticateToken, adminRoutes)
-app.use('/api/courses', authenticateToken, courseRoutes);  // /api/courses
-app.use('/api/enrollment', authenticateToken, enrollmentRoutes);
+app.use("/api/admin",authenticateToken,  adminRoutes)
+app.use('/api/courses', authenticateToken,checkUserEnabled, courseRoutes);  // /api/courses
+app.use('/api/enrollment', authenticateToken,checkUserEnabled, enrollmentRoutes);
+
+//teacher routes
+app.use('/api/teacher', authenticateToken,checkUserEnabled, teacherRoutes);
 
 //teacher routes
 app.use('/api/teacher', authenticateToken, teacherRoutes);
@@ -49,6 +56,7 @@ app.use('/assignments', express.static(path.join(__dirname, 'uploads/assignments
 //student routes
 app.use("/api/student", studentAnnouncementRoutes);
 app.use('/api/student', studentRoutes);
+
 
 app.get("/user", (req, res) => {
    res.send("Server is ready") 
