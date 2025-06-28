@@ -159,3 +159,35 @@ export const apiFetch = async (endpoint, options = {}) => {
 
   return data;
 };
+
+/*const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+export const apiFetch = async (endpoint, options = {}, role = 'user') => {
+  const token = localStorage.getItem("token");
+  const headers = {
+    ...(token && { 'Authorization': `Bearer ${token}` }),
+    ...(options.headers || {})
+  };
+
+  // Add role parameter to the endpoint
+  const endpointWithRole = endpoint.includes('?') 
+    ? `${endpoint}&role=${role}`
+    : `${endpoint}?role=${role}`;
+
+  // Only set 'Content-Type' to JSON if body is NOT FormData
+  if (!(options.body instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
+  }
+
+  // Use endpointWithRole instead of endpoint in the fetch call
+  const res = await fetch(`${BASE_URL}${endpointWithRole}`, {
+    ...options,
+    headers
+  });
+
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.message || 'Something went wrong');
+  }
+  return data;
+};*/

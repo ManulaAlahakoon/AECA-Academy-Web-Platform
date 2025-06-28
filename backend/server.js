@@ -1,3 +1,4 @@
+
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -17,6 +18,12 @@ import { dirname } from "path";
 import studentRoutes from './routes/student.route.js';
 
 import { checkUserEnabled } from "./middlewares/checkUserEnabled.middleware.js";
+
+// Risna
+import profileRoutes from './routes/profile.route.js';
+import path from "path";
+import { fileURLToPath } from 'url';
+import feedbackRoutes from './routes/feedback.route.js';
 
 //Admin public announcment
 import publicAnnouncementRoutes from './routes/publicAnnouncement.routes.js';
@@ -47,11 +54,14 @@ app.use("/api", teacherAnnouncementRoutes);
 //Image 
 app.use('/uploads', express.static('uploads'));
 // Serve uploaded files
+
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use("/LectureMaterials", express.static(path.join(process.cwd(), "uploads/LectureMaterials")));
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+
 app.use('/LectureMaterials', express.static(path.join(__dirname, 'uploads/LectureMaterials')));
 app.use('/assignments', express.static(path.join(__dirname, 'uploads/assignments')));
 
@@ -59,6 +69,19 @@ app.use('/assignments', express.static(path.join(__dirname, 'uploads/assignments
 //student routes
 app.use("/api/student", studentAnnouncementRoutes);
 app.use('/api/student', studentRoutes);
+
+
+//Risna
+//const __filename = fileURLToPath(import.meta.url);
+
+//Risna modification
+//const __dirname = path.dirname(__filename);
+
+//Risna
+//app.use('/api/feedback',authenticateToken, feedbackRoutes);
+app.use('/api/profile', authenticateToken, profileRoutes);
+//app.use('/uploads', express.static(path.join(__dirname, "uploads")));
+
 
 //Admin public announcments
 app.use('/api', publicAnnouncementRoutes);
@@ -75,4 +98,7 @@ app.listen(5000, () => {
 })
 
 
+
+
+>>>>>>> 121e02cb9d5d475a99ffbcf0cdad970e4ce1f567
 //GK3LWEDP5xRYO1fa
