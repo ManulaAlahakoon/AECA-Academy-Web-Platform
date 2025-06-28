@@ -185,26 +185,26 @@ const TeacherCourses = () => {
             </div>
           );
         })}
-//dev
-//         {courses.map((course) => (
-//           <div
-//             key={course._id}
-//             onClick={() => handleClick(course)}
-//             className="cursor-pointer bg-white p-4 shadow rounded hover:shadow-lg transition"
-//           >
-//             <img
-//               src={course.image || "https://via.placeholder.com/300x200"}
-//               alt={course.name}
-//               className="w-full h-40 object-cover rounded mb-3"
-//             />
-//             <h2 className="text-xl font-semibold text-[#800000] mb-1">
-//               {course.name}
-//             </h2>
-//             <p className="text-sm text-gray-600 mb-2">Instructor: You</p>
-//             <p className="text-gray-700 text-sm">{course.description}</p>
-//           </div>
-//         ))}
-// Dev
+      {/* dev */}
+         {/* {courses.map((course) => (
+           <div
+           key={course._id}
+             onClick={() => handleClick(course)}
+             className="cursor-pointer bg-white p-4 shadow rounded hover:shadow-lg transition"
+           >
+             <img
+               src={course.image || "https://via.placeholder.com/300x200"}
+               alt={course.name}
+               className="w-full h-40 object-cover rounded mb-3"
+             />
+             <h2 className="text-xl font-semibold text-[#800000] mb-1">
+               {course.name}
+             </h2>
+             <p className="text-sm text-gray-600 mb-2">Instructor: You</p>
+             <p className="text-gray-700 text-sm">{course.description}</p>
+           </div>
+         ))} */}
+ {/* Dev */}
       </div>
 
       {/* Upload Modal */}
