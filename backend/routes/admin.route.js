@@ -1,5 +1,7 @@
 import express from 'express';
+
 import { registerTeacher, getAdminDashboardStats, getCourseEnrollmentChart, getRecentActivity, getWeeklySignups, getEnrolledStudentsByCourse, updateStudentStatus } from "../controllers/admin.controller.js"
+
 
 const router = express.Router();
 
@@ -12,7 +14,5 @@ router.get('/weekly-signups', getWeeklySignups);
  //User management
 router.get("/course/:courseId/enrolled-students", getEnrolledStudentsByCourse);
 router.patch("/user/:userId/toggle-status", updateStudentStatus);
-
-
 
 export default router;

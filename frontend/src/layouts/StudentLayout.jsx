@@ -7,7 +7,6 @@ import { FaTachometerAlt, FaBook, FaUpload, FaBullhorn, FaCommentDots, FaRobot, 
 const studentLinks = [
   { path: "/student", label: "Dashboard", icon: <FaTachometerAlt /> },
   { path: "/student/courses", label: "My Courses", icon: <FaBook /> },
-  { path: "/student/assignments", label: "Assignments", icon: <FaUpload /> },
   { path: "/student/announcements", label: "Announcements", icon: <FaBullhorn /> },
   { path: "/student/feedback", label: "Feedback", icon: <FaCommentDots /> },
   { path: "/student/chatbot", label: "Chatbot", icon: <FaRobot /> },
