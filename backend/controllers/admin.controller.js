@@ -5,6 +5,9 @@ import crypto from 'crypto';
 import nodemailer from 'nodemailer'; 
 import Course from '../models/course.model.js';
 import Enrollment from '../models/enrollement.model.js';
+import LectureMaterial from "../models/lectureMaterial.model.js";
+import { sendEmail } from "../utils/sendEmail.js";
+
 
 export const registerTeacher = async (req, res) => {
   const { name, email } = req.body;
@@ -239,4 +242,53 @@ export const updateStudentStatus = async (req, res) => {
     res.status(500).json({ message: "Error updating student status" });
   }
 
+};
+
+
+//Lecture material enabaling and diabling
+
+// Get materials for a specific course
+export const getMaterialsByCourse = async (req, res) => {
+  try {
+    const { course } = req.params;
+    const materials = await LectureMaterial.find({ course })
+      .populate('uploadedBy', 'name email')
+      .sort({ uploadedAt: -1 });
+
+    res.status(200).json({ success: true, materials });
+  } catch (err) {
+    console.error("Fetch failed:", err.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// Toggle enable/disable material
+export const toggleMaterialStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const material = await LectureMaterial.findById(id).populate('uploadedBy');
+    if (!material) {
+      return res.status(404).json({ success: false, message: "Material not found" });
+    }
+
+    material.isEnabled = !material.isEnabled;
+    await material.save();
+
+    // Send email if disabled
+    if (!material.isEnabled) {
+      await sendEmail(
+        material.uploadedBy.email,
+        "Your material was disabled",
+        `Hello ${material.uploadedBy.name},
+
+Your uploaded material "${material.originalName}" in course "${material.course}" was disabled by admin.`
+      );
+    }
+
+    res.json({ success: true, message: `Material ${material.isEnabled ? 'enabled' : 'disabled'}` });
+  } catch (err) {
+    console.error("Toggle failed:", err.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 };

@@ -20,6 +20,8 @@ import ManageCourse from "./pages/admin/CourseManagementPage";
 import TeacherRegistrationPage from "./pages/admin/TeacherRegistrationPage";
 import PaymentVerification from "./pages/admin/PaymentVerification";
 import ManageUsers from "./pages/admin/ManageUsers";
+import AdminAnnouncementForm from './pages/admin/AdminAnnouncementForm';
+import MaterialManagementPage from './pages/admin/MaterialManagementPage';
 
 
 //student dashboard
@@ -93,11 +95,12 @@ function App() {
           <Route path="feedback" element={<CourseFeedback />} />
           <Route path="mycourses" element={<TeacherCourses />} />
           //tharushi-1
-          <Route path="/teacher/course/:courseId/materials" element={<LectureMaterials />} />
-
+          <Route
+            path="/teacher/course/:courseId/materials"
+            element={<LectureMaterials />}
+          />
           //dev
           <Route path="/teacher/course/:id" element={<TeacherCourseInfo />} />
-
         </Route>
         <Route
           path="/admin"
@@ -119,7 +122,11 @@ function App() {
           />
           <Route path="manage-users" element={<ManageUsers />} />
 
-          
+          <Route
+            path="public-announcements"
+            element={<AdminAnnouncementForm />}
+          />
+          <Route path="/admin/materials" element={<MaterialManagementPage />} />
         </Route>
       </Routes>
     </AuthProvider>
