@@ -9,7 +9,7 @@ import CoursePage from './pages/home/CoursePage';
 import ContactPage from './pages/home/ContactPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
-import ForgotPasswordPage from "./pages/Auth/ForgotPasswordPage";
+import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import ResetPassword from './pages/auth/ResetPassword';
 import StudentDashboard from './pages/student/StudentDashboard';
 import TeacherDashboard from './pages/teacher/TeacherDashboard';
@@ -117,8 +117,6 @@ function App() {
             path="enrollment-approvals"
             element={<PaymentVerification />}
           />
-
-          
         </Route>
       </Routes>
     </AuthProvider>
