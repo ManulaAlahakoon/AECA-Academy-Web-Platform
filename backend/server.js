@@ -10,15 +10,24 @@ import enrollmentRoutes from './routes/enrollment.route.js';
 import teacherRoutes from './routes/teacher.route.js';
 import { checkUserEnabled } from "./middlewares/checkUserEnabled.middleware.js";
 
+
 // Risna
 import profileRoutes from './routes/profile.route.js';
- 
-
+import path from "path";
+import { fileURLToPath } from 'url';
+import feedbackRoutes from './routes/feedback.route.js';
 // import User from './models/user.model.js';
 // import bcrypt from 'bcrypt';
 
 dotenv.config()
 const app = express()
+
+//risna
+// Needed if you're using ES Modules to resolve __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
 
 app.use(cors());
 app.use(express.json())
@@ -31,17 +40,19 @@ app.use("/api/admin",authenticateToken,  adminRoutes)
 app.use('/api/courses', authenticateToken,checkUserEnabled, courseRoutes);  // /api/courses
 app.use('/api/enrollment', authenticateToken,checkUserEnabled, enrollmentRoutes);
 
-//teacher routes
-app.use('/api/teacher', authenticateToken,checkUserEnabled, teacherRoutes);
-app.use("/api/admin",authenticateToken, adminRoutes)
-app.use('/api/courses', authenticateToken, courseRoutes);  // /api/courses
-app.use('/api/enrollment', authenticateToken, enrollmentRoutes);
+
+
+
+app.use('/api/feedback',authenticateToken, feedbackRoutes);
+
+// Risna 
+//app.use('/api/teacher', authenticateToken,checkUserEnabled, teacherRoutes);
 
 //Risna
 
 app.use('/api/profile', authenticateToken, profileRoutes);
 
-
+app.use('/uploads', express.static(path.join(__dirname, "uploads")));
 
 
 //Image 
