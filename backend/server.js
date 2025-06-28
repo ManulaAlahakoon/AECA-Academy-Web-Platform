@@ -18,6 +18,9 @@ import studentRoutes from './routes/student.route.js';
 
 import { checkUserEnabled } from "./middlewares/checkUserEnabled.middleware.js";
 
+//Admin public announcment
+import publicAnnouncementRoutes from './routes/publicAnnouncement.routes.js';
+
 // import User from './models/user.model.js';
 // import bcrypt from 'bcrypt';
 
@@ -56,6 +59,10 @@ app.use('/assignments', express.static(path.join(__dirname, 'uploads/assignments
 //student routes
 app.use("/api/student", studentAnnouncementRoutes);
 app.use('/api/student', studentRoutes);
+
+//Admin public announcments
+app.use('/api', publicAnnouncementRoutes);
+
 
 
 app.get("/user", (req, res) => {

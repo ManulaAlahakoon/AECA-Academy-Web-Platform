@@ -6,15 +6,43 @@ const StudentAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   const fetchAnnouncements = async () => {
+  //     try {
+  //       const res = await apiFetch("/api/student/announcements");
+  //       if (res.success) {
+  //         setAnnouncements(res.announcements);
+  //       }
+  //     } catch (err) {
+  //       console.error("Error fetching student announcements:", err.message);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchAnnouncements();
+  // }, []);
+
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
-        const res = await apiFetch("/api/student/announcements");
-        if (res.success) {
-          setAnnouncements(res.announcements);
-        }
+        const [res1, res2] = await Promise.all([
+          apiFetch("/api/student/announcements"),
+          apiFetch("/api/student/public-announcements"),
+        ]);
+
+        const all = [
+          ...(res1?.announcements || []),
+          ...(res2?.announcements.map((a) => ({
+            ...a,
+            teacher: a.admin, // unify field for rendering
+            course: "Public Announcement",
+          })) || []),
+        ];
+
+        setAnnouncements(all);
       } catch (err) {
-        console.error("Error fetching student announcements:", err.message);
+        console.error("Error fetching announcements:", err.message);
       } finally {
         setLoading(false);
       }
@@ -22,8 +50,9 @@ const StudentAnnouncements = () => {
 
     fetchAnnouncements();
   }, []);
+  
 
-  // ✅ Sort & Separate
+  // Sort & Separate
   const sortedPosts = [...announcements].sort(
     (a, b) => new Date(b.date) - new Date(a.date)
   );
@@ -63,7 +92,7 @@ const StudentAnnouncements = () => {
         </ul>
       )}
 
-      {/* 📁 Previous Announcements */}
+      {/* Previous Announcements */}
       <h2 className="text-lg font-medium text-maroon-600 mb-3">
         Previous Posts
       </h2>
