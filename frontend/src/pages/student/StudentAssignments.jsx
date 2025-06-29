@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { apiFetch } from "../../services/api";
 
 const StudentMaterials = () => {
-  const { courseName } = useParams(); // Make sure the route passes courseName param
+  const { courseName } = useParams(); // ✅ Make sure the route passes courseName param
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -12,7 +12,7 @@ const StudentMaterials = () => {
       console.log("Course name from URL:", courseName);
 
       try {
-        const response = await apiFetch(`/api/student/materials/course/${courseName}`); // updated route matches backend
+        const response = await apiFetch(`/api/student/materials/course/${courseName}`); // ✅ updated route matches backend
         console.log("Fetched materials:", response);
         setMaterials(response.materials || []);
       } catch (err) {
@@ -23,7 +23,7 @@ const StudentMaterials = () => {
       }
     };
 
-    fetchMaterials(); //  avoid triggering with undefined param
+    fetchMaterials(); // ✅ avoid triggering with undefined param
   }, [courseName]);
 
   if (loading) return <p>Loading...</p>;

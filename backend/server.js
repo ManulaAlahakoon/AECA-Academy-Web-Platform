@@ -18,6 +18,7 @@ import { dirname } from "path";
 import studentRoutes from './routes/student.route.js';
 
 import { checkUserEnabled } from "./middlewares/checkUserEnabled.middleware.js";
+import studentSubmissionRoutes from './routes/studentSubmission.route.js';
 
 // Risna
 import profileRoutes from './routes/profile.route.js';
@@ -49,30 +50,27 @@ app.use('/api/enrollment', authenticateToken,checkUserEnabled, enrollmentRoutes)
 
 //teacher routes
 app.use('/api/teacher', authenticateToken,checkUserEnabled, teacherRoutes);
-
-//teacher routes
-app.use('/api/teacher', authenticateToken, teacherRoutes);
 app.use("/api", teacherAnnouncementRoutes);
-//Image 
-app.use('/uploads', express.static('uploads'));
-// Serve uploaded files
-
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
-app.use("/LectureMaterials", express.static(path.join(process.cwd(), "uploads/LectureMaterials")));
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+//Image 
+// ✅ Serve general uploads (if needed)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// ✅ Serve lecture materials properly
+app.use("/lecturematerials", express.static(path.join(__dirname, "uploads/lecturematerials")));
 
-app.use('/LectureMaterials', express.static(path.join(__dirname, 'uploads/LectureMaterials')));
-app.use('/assignments', express.static(path.join(__dirname, 'uploads/assignments')));
-
-app.use("/LectureMaterials", express.static(path.join(process.cwd(), "LectureMaterials")));
-app.use("/assignments", express.static(path.join(process.cwd(), "assignments")));
+// ✅ Serve assignments properly
+app.use("/assignments", express.static(path.join(__dirname, 'uploads','assignments')));
 
 //student routes
 app.use("/api/student", studentAnnouncementRoutes);
 app.use('/api/student', studentRoutes);
+
+//submission routes
+app.use("/api/submissions", studentSubmissionRoutes);
+app.use("/submissions", express.static(path.join(__dirname, "uploads", "submissions")));
 
 
 //Risna

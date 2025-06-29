@@ -30,20 +30,27 @@ export const getAssignedEnabledCourses = async (req, res) => {
 
 export const uploadLectureMaterial = async (req, res) => {
   try {
-    const { course,type } = req.body;
+    const { course,type, topic, dueDate  } = req.body;
 
     console.log("🛠 Upload received: ", {
       course,
-      type,
-      file: req.file,
+      dueDate: type === "assignment" ? dueDate : undefined,
+      filePath: req.file.path.replace(/\\/g, "/"),
+      originalName: req.file.originalname,
+      fileName: req.file.filename,
+      uploadedBy: req.user.id,
+      type: req.body.type || "lecture",
     });
 
     if (!req.file || !course) {
+      console.log("❌ req.file missing. Upload failed")
       return res.status(400).json({ success: false, message: "Course and file are required." });
     }
 
     const material = new LectureMaterial({
       course,
+      topic,
+      dueDate: type === "assignment" ? dueDate : null,
       filePath: req.file.path.replace(/\\/g, "/"),
       originalName: req.file.originalname,
       fileName: req.file.filename,

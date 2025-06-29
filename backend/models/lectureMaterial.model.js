@@ -31,10 +31,13 @@ const lectureMaterialSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  isEnabled: {
-    type: Boolean,
-    default: true
-  }
+  topic: { 
+    type: String, 
+    required: true 
+  },
+  dueDate: { 
+    type: Date 
+  },
 });
 
 const LectureMaterial = mongoose.model("LectureMaterial", lectureMaterialSchema);

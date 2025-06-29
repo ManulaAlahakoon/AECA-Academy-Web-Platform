@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Absolute path to /uploads/LectureMaterials inside the backend directory
-const baseUploadPath = path.join(__dirname, "..", "uploads", "LectureMaterials");
+const baseUploadPath = path.join(__dirname, "..", "uploads", "lecturematerials");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -18,6 +18,7 @@ const storage = multer.diskStorage({
     const uploadPath = path.join(baseUploadPath, course);
 
     fs.mkdirSync(uploadPath, { recursive: true });
+    console.log("✅ Storing file to:", uploadPath);
     cb(null, uploadPath); // Store in backend/uploads/LectureMaterials/<course>
   },
   filename: (req, file, cb) => {
