@@ -21,15 +21,17 @@ import { checkUserEnabled } from "./middlewares/checkUserEnabled.middleware.js";
 
 // Risna
 import profileRoutes from './routes/profile.route.js';
-import path from "path";
-import { fileURLToPath } from 'url';
-import feedbackRoutes from './routes/feedback.route.js';
+//import path from "path";
+//import { fileURLToPath } from 'url';
+//import feedbackRoutes from './routes/feedback.route.js';
 
 //Admin public announcment
 import publicAnnouncementRoutes from './routes/publicAnnouncement.routes.js';
 
 // import User from './models/user.model.js';
 // import bcrypt from 'bcrypt';
+
+//import path from "path";
 
 dotenv.config()
 const app = express()
@@ -65,6 +67,8 @@ const __dirname = dirname(__filename);
 app.use('/LectureMaterials', express.static(path.join(__dirname, 'uploads/LectureMaterials')));
 app.use('/assignments', express.static(path.join(__dirname, 'uploads/assignments')));
 
+app.use("/LectureMaterials", express.static(path.join(process.cwd(), "LectureMaterials")));
+app.use("/assignments", express.static(path.join(process.cwd(), "assignments")));
 
 //student routes
 app.use("/api/student", studentAnnouncementRoutes);
@@ -100,5 +104,5 @@ app.listen(5000, () => {
 
 
 
->>>>>>> 121e02cb9d5d475a99ffbcf0cdad970e4ce1f567
+
 //GK3LWEDP5xRYO1fa

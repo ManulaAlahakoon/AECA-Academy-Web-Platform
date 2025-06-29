@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { registerTeacher, getAdminDashboardStats, getCourseEnrollmentChart, getRecentActivity, getWeeklySignups, getEnrolledStudentsByCourse, updateStudentStatus, getMaterialsByCourse, toggleMaterialStatus} from "../controllers/admin.controller.js"
+import { registerTeacher, getAdminDashboardStats, getCourseEnrollmentChart, getRecentActivity, getWeeklySignups, getEnrolledStudentsByCourse, updateStudentStatus, getMaterialsByCourse, toggleMaterialStatus, getCourseMaterials } from "../controllers/admin.controller.js"
 
 
 const router = express.Router();
@@ -18,5 +18,8 @@ router.patch("/user/:userId/toggle-status", updateStudentStatus);
 // Material management
 router.get("/materials/:course", getMaterialsByCourse);
 router.patch("/materials/:id/toggle", toggleMaterialStatus);
+
+//Lecture material viewing
+router.get("/materials/course/:courseName",getCourseMaterials);     
 
 export default router;

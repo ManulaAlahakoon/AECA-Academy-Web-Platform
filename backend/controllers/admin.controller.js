@@ -292,3 +292,20 @@ Your uploaded material "${material.originalName}" in course "${material.course}"
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+// Vieving lecture materials for admin
+
+
+export const getCourseMaterials = async (req, res) => {
+  const { courseName } = req.params;
+  try {
+    const materials = await LectureMaterial.find({ course: courseName })
+      .populate('uploadedBy', 'name email')
+      .sort({ uploadedAt: -1 });
+    
+    res.json({ success: true, materials });
+  } catch (err) {
+    console.error("Error fetching course materials:", err.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
