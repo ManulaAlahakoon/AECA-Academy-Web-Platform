@@ -35,7 +35,7 @@ const FeaturesPage = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
 
-      <main className="flex flex-col px-6 md:px-20 pt-6 space-y-12 flex-grow">
+      <main className="flex flex-col px-6 md:px-20 pt-[260px] space-y-12 flex-grow">
         {/* Title Section */}
         <section className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold text-[#800000] mb-4">
