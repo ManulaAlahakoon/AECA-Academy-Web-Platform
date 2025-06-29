@@ -170,7 +170,9 @@ const CourseStudents = () => {
             {/* Profile Picture */}
             <div className="flex justify-center">
               <img
-                src={`${import.meta.env.VITE_API_BASE_URL}/${selectedStudent.profilePicture}`}
+               // src={`${import.meta.env.VITE_API_BASE_URL}/${selectedStudent.profilePicture}`}
+                src={`${import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')}/${selectedStudent.profilePicture.replace(/^\//, '')}`}
+
                 //src={
                 //  selectedStudent.profilePicture ||
                 //  "https://via.placeholder.com/100"
