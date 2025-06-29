@@ -30,7 +30,7 @@ const StudentProfile = () => {
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
     try {
-      const res = await apiFetch("/api/profile", {
+      const res = await apiFetch("/api/profile/update", {
         method: "PUT",
         body: JSON.stringify(formData),
       });

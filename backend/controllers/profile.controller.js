@@ -29,7 +29,7 @@ const imageFileFilter = (req, file, cb) => {
 
 // Student Multer config
 export const uploadProfilePicture = multer({
-  storage: createStorage("profile-pictures"),
+  storage: createStorage("profile_pictures"),
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: imageFileFilter,
 });
@@ -54,7 +54,7 @@ export const handleProfilePictureUpload = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
 
-    const filePath = `/uploads/profile-pictures/${req.file.filename}`;
+    const filePath = `/uploads/profile_pictures/${req.file.filename}`;
     const user = await User.findByIdAndUpdate(
       req.user.id,
       { profilePicture: filePath },

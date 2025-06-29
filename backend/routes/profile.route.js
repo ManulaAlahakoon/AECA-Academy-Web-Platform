@@ -6,11 +6,11 @@ import {
   updatePassword,
   uploadProfilePicture,
   handleProfilePictureUpload,
-  getTeacherProfile,
-  updateTeacherProfile,
-  updateTeacherPassword,
-  uploadTeacherPicture,
-  handleTeacherPictureUpload,
+  // getTeacherProfile,
+  // updateTeacherProfile,
+  // updateTeacherPassword,
+  // uploadTeacherPicture,
+  // handleTeacherPictureUpload,
 } from "../controllers/profile.controller.js";
 
 import { authenticateToken } from "../middlewares/auth.middleware.js";
@@ -21,7 +21,7 @@ router.use(authenticateToken);
 
 // Student routes
 router.get("/", getProfile);
-router.put("/", updateProfile);
+router.put("/update", updateProfile);
 router.patch("/password", updatePassword);
 router.post(
   "/upload-picture",
