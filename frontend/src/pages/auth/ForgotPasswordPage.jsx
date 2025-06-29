@@ -18,7 +18,7 @@ const ForgotPasswordPage = () => {
         method: "POST",
         body: JSON.stringify({ email }),
       });
-      setMessage("If the email exists, we sent reset instructions.");
+      setMessage("Check your mails.");
     } catch (err) {
       setError("Failed to send reset instructions.");
     }

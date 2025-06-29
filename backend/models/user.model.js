@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   resetPasswordExpires: Date,
 }, { timestamps: true });
 
-// ✅ This line hashes the password before saving
+
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);

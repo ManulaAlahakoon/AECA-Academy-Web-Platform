@@ -10,7 +10,7 @@ const ResetPassword = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  // ✅ Add the same password validation from RegisterPage.jsx
+
   const validatePassword = () => {
     if (!password) {
       return "Password is required";
@@ -29,7 +29,7 @@ const ResetPassword = () => {
     setMessage("");
     setError("");
 
-    // ✅ Run validation
+    
     const validationError = validatePassword();
     if (validationError) {
       setError(validationError);

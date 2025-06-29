@@ -13,7 +13,6 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // ✅ No need to hash here — model will hash it for you
     const user = new User({ name, email, password, role });
     await user.save();
 
@@ -74,7 +73,7 @@ export const getUsersByRole = async (req, res) => {
   }
 };
 
-// Sends reset link
+
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -94,8 +93,8 @@ export const forgotPassword = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "clonec641@gmail.com",       // ✅ replace with AECA's Gmail
-        pass: "llpszdsynsebayss",      // ✅ use Gmail App Password
+        user: "clonec641@gmail.com",       
+        pass: "llpszdsynsebayss",      
       },
     });
 
@@ -112,12 +111,12 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
-// Resets password using token
+
 export const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
 
-  console.log("📥 Reset password called");
+  console.log("Reset password called");
   console.log("Received token:", token);
   console.log("Received password:", password);
 
@@ -128,7 +127,7 @@ export const resetPassword = async (req, res) => {
     });
 
     if (!user) {
-      console.log("❌ Invalid or expired token");
+      console.log("Invalid or expired token");
       return res.status(400).json({ message: "Invalid or expired reset token" });
     }
 
@@ -136,13 +135,13 @@ export const resetPassword = async (req, res) => {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
 
-    console.log("📝 Saving user...");
+    console.log("Saving user...");
     await user.save();
-    console.log("✅ Password reset success for", user.email);
+    console.log("Password reset success for", user.email);
 
     return res.status(200).json({ message: "Password reset successful" });
   } catch (err) {
-    console.error("🔥 Error during reset:", err.message);
+    console.error("Error during reset:", err.message);
     return res.status(500).json({ message: "Something went wrong on the server" });
   }
 };
