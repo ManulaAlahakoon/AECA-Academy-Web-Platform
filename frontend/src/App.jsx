@@ -131,7 +131,7 @@ import CoursePage from './pages/home/CoursePage';
 import ContactPage from './pages/home/ContactPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
-import ForgotPassword from './pages/auth/ForgotPassword';
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import ResetPassword from './pages/auth/ResetPassword';
 import StudentDashboard from './pages/student/StudentDashboard';
 import TeacherDashboard from './pages/teacher/TeacherDashboard';
@@ -167,20 +167,28 @@ import CourseFeedback from "./pages/teacher/CourseFeedback";
 import TeacherLayout from "./layouts/TeacherLayout";
 import TeacherCourses from './pages/teacher/TeacherCourses';
 import TeacherCourseInfo from './pages/teacher/TeacherCourseInfo';
-
+import Events from './pages/home/Events';
+import FAQ from './pages/home/FAQ';
+import WhyChooseUs from './pages/home/WhyChooseUs';
+import Staff from './pages/home/Staff';
 function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/why-choose-us" element={<WhyChooseUs />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/features" element={<FeaturePage />} />
         <Route path="/courses" element={<CoursePage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/staff" element={<Staff />} />
+
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
 
         <Route
