@@ -5,7 +5,7 @@ export const getLectureMaterialsForStudents = async (req, res) => {
   try {
     const { courseName } = req.params;
 
-    const materials = await LectureMaterial.find({ course: courseName, isEnabled: true  }).sort({ uploadedAt: -1 });
+    const materials = await LectureMaterial.find({ course: courseName }).sort({ uploadedAt: -1 });
     console.log("Found materials for course:", courseName, materials);
     res.status(200).json({ success: true, materials });
   } catch (error) {

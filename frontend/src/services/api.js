@@ -1,5 +1,5 @@
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 // export const apiFetch = async (endpoint, options = {}) => {
 //     const res = await fetch(`${BASE_URL}${endpoint}`, {
 //       ...options,
@@ -158,6 +158,43 @@ export const apiFetch = async (endpoint, options = {}) => {
 }
 
   return data;
+};
+
+
+export const apiPost = async (url, data, isFormData = false) => {
+  const token = localStorage.getItem("token");
+
+  const headers = isFormData
+    ? { Authorization: `Bearer ${token}` }
+    : {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+
+  const response = await fetch(`${API_BASE}${url}`, {
+    method: "POST",
+    headers,
+    body: isFormData ? data : JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText);
+  }
+
+  return await response.json();
+};
+
+
+export const apiDelete = async (endpoint) => {
+  const res = await fetch(`${BASE_URL}${endpoint}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
 };
 
 /*const BASE_URL = import.meta.env.VITE_API_BASE_URL;
