@@ -2,9 +2,7 @@ import React from 'react';
 import {
   FaFacebookF,
   FaInstagram,
-  FaLinkedinIn,
-  FaTimes,
-  FaYoutube
+  FaLinkedinIn
 } from 'react-icons/fa';
 
 const Footer = () => {
@@ -21,34 +19,47 @@ const Footer = () => {
           <p>Colombo, Sri Lanka</p>
         </div>
 
-        {/* Center: Links */}
+        {/* Center: Important Links */}
         <div className="space-y-2">
-          <a href="#" className="hover:underline block">About AECA</a>
-          <a href="#" className="hover:underline block">Our Mission</a>
-          <a href="#" className="hover:underline block">Terms & Conditions</a>
-          <a href="#" className="hover:underline block">Student Support</a>
-          <a href="#" className="hover:underline block">Careers</a>
-          <a href="#" className="hover:underline block">Donate</a>
-          <a href="#" className="hover:underline block">Accessibility</a>
-          <a href="#" className="hover:underline block">Privacy Policy</a>
+          <a href="/about" className="hover:underline block">About AECA</a>
+          <a href="/about" className="hover:underline block">Our Mission</a>
+          <a href="/contact" className="hover:underline block">Terms & Conditions</a>
+          <a href="/contact" className="hover:underline block">Student Support</a>
+          <a href="/contact" className="hover:underline block">Accessibility</a>
         </div>
 
-        {/* Right: Links and Social */}
+        {/* Right: Quick Navigation & Social */}
         <div className="space-y-2">
-          <a href="#" className="hover:underline block">Visit AECA</a>
-          <a href="#" className="hover:underline block">Our Locations</a>
-          <a href="#" className="hover:underline block">Contact Us</a>
-          <a href="#" className="hover:underline block">Maps & Directions</a>
-          <a href="#" className="hover:underline block">Student Portal</a>
-          <a href="#" className="hover:underline block">Email Login</a>
-          <a href="#" className="hover:underline block">Site Map</a>
+          <a href="/" className="hover:underline block">Visit AECA</a>
+          <a href="/contact" className="hover:underline block">Contact Us</a>
+         
 
+          {/* Social Media Icons */}
           <div className="flex space-x-4 mt-4 text-lg">
-            <FaFacebookF />
-            <FaInstagram />
-            <FaLinkedinIn />
-            <FaTimes />
-            <FaYoutube />
+            <a
+              href="https://www.facebook.com/share/1CPq3tNn64/?mibextid=wwXIfr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#4267B2]"
+            >
+              <FaFacebookF />
+            </a>
+            <a
+              href="https://www.instagram.com/ielts_aeca?igsh=eXRpaDBsbmVzNmY2&utm_source=qr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#E1306C]"
+            >
+              <FaInstagram />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/academy-of-english-for-career-advancement-2a30aa2b4/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#0077B5]"
+            >
+              <FaLinkedinIn />
+            </a>
           </div>
         </div>
       </div>
