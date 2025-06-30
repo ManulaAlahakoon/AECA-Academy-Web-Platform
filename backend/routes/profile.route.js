@@ -11,6 +11,13 @@ import {
   // updateTeacherPassword,
   // uploadTeacherPicture,
   // handleTeacherPictureUpload,
+
+  getTeacherProfile,
+  updateTeacherProfile,
+  updateTeacherPassword,
+  uploadTeacherPicture,
+  handleTeacherPictureUpload,
+
 } from "../controllers/profile.controller.js";
 
 import { authenticateToken } from "../middlewares/auth.middleware.js";
@@ -40,4 +47,16 @@ router.post(
 );
 
 */
+
+//Teacher routes
+router.get("/teacher/profile", getTeacherProfile);
+router.put("/teacher/profile", updateTeacherProfile);
+router.patch("/teacher/profile/password", updateTeacherPassword);
+router.post(
+  "/teacher/profile/upload-picture",
+  uploadTeacherPicture.single("profilePicture"),
+  handleTeacherPictureUpload
+);
+
+
 export default router;
