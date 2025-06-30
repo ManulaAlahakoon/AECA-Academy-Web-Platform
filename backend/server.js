@@ -52,16 +52,28 @@ app.use('/api/enrollment', authenticateToken,checkUserEnabled, enrollmentRoutes)
 app.use('/api/teacher', authenticateToken,checkUserEnabled, teacherRoutes);
 app.use("/api", teacherAnnouncementRoutes);
 
+
+//Image 
+app.use('/uploads', express.static('uploads'));
+
+// Serve uploaded filesMore actions
+
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+app.use("/LectureMaterials", express.static(path.join(process.cwd(), "uploads/LectureMaterials")));
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-//Image 
-// ✅ Serve general uploads (if needed)
+
+
+
+//  Serve general uploads (if needed)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// ✅ Serve lecture materials properly
+//  Serve lecture materials properly
 app.use("/lecturematerials", express.static(path.join(__dirname, "uploads/lecturematerials")));
 
-// ✅ Serve assignments properly
+// Serve assignments properly
 app.use("/assignments", express.static(path.join(__dirname, 'uploads','assignments')));
 
 //student routes
@@ -87,6 +99,12 @@ app.use('/api/profile', authenticateToken, profileRoutes);
 
 //Admin public announcments
 app.use('/api', publicAnnouncementRoutes);
+
+
+
+//tharushi - 2
+
+
 
 
 
