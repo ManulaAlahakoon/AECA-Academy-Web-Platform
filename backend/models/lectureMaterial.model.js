@@ -33,10 +33,14 @@ const lectureMaterialSchema = new mongoose.Schema({
   },
   topic: { 
     type: String, 
-    required: true 
+    required: false 
   },
   dueDate: { 
     type: Date 
+  },
+  isEnabled: {
+    type: Boolean,
+    default: true,
   },
 });
 
