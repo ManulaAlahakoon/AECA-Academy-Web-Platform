@@ -104,7 +104,7 @@ const CourseStudents = () => {
               </tr>
             </thead>
             <tbody>
-              {students.length > 0 ? (
+              {/* {students.length > 0 ? (
                 students.map((student) => (
                   <tr key={student._id}>
                     <td className="p-3">
@@ -125,6 +125,38 @@ const CourseStudents = () => {
                         onClick={() => handleToggle(student)}
                       >
                         {student.isEnabled ? "Disable" : "Enable"}
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td className="p-3 text-gray-500" colSpan="4">
+                    No students enrolled for this course.
+                  </td>
+                </tr>
+              )} */}
+              {students.length > 0 ? (
+                students.map((student) => (
+                  <tr key={student?._id ?? Math.random()}>
+                    <td className="p-3">
+                      <span
+                        className="cursor-pointer text-[#800000] hover:underline"
+                        onClick={() => setSelectedStudent(student)}
+                      >
+                        {student?.name ?? "Unknown"}
+                      </span>
+                    </td>
+                    <td className="p-3">{student?.email ?? "N/A"}</td>
+                    <td className="p-3">
+                      {student?.isEnabled ? "Enabled" : "Disabled"}
+                    </td>
+                    <td className="p-3">
+                      <button
+                        className={`py-1 px-3 rounded ${student?.isEnabled ? "bg-red-600" : "bg-green-600"} text-white`}
+                        onClick={() => handleToggle(student)}
+                      >
+                        {student?.isEnabled ? "Disable" : "Enable"}
                       </button>
                     </td>
                   </tr>
@@ -164,95 +196,54 @@ const CourseStudents = () => {
           </div>
         </div>
       )} */}
+
       {selectedStudent && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-40">
-          <div className="bg-white rounded p-6 w-[400px] relative shadow-lg">
-            {/* Profile Picture */}
-            <div className="flex justify-center">
-              <img
-               // src={`${import.meta.env.VITE_API_BASE_URL}/${selectedStudent.profilePicture}`}
-                src={`${import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')}/${selectedStudent.profilePicture.replace(/^\//, '')}`}
+  <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-40">
+    <div className="bg-white rounded p-6 w-[400px] relative shadow-lg">
+      <div className="flex justify-center">
+        <img
+          src={
+            selectedStudent?.profilePicture
+              ? `${import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')}/${selectedStudent.profilePicture.replace(/^\//, '')}`
+              : "https://via.placeholder.com/100"
+          }
+          alt={selectedStudent?.name ?? "Unknown"}
+          className="w-24 h-24 rounded-full object-cover border-2 border-[#800000]"
+        />
+      </div>
+      <h2 className="text-2xl font-bold text-[#800000] text-center mt-3">
+        {selectedStudent?.name ?? "Unknown"}
+      </h2>
 
-                //src={
-                //  selectedStudent.profilePicture ||
-                //  "https://via.placeholder.com/100"
-                //}
-                alt={selectedStudent.name}
-                className="w-24 h-24 rounded-full object-cover border-2 border-[#800000]"
-              />
-            </div>
-            <h2 className="text-2xl font-bold text-[#800000] text-center mt-3">
-              {selectedStudent.name}
-            </h2>
+      <div className="mt-4 space-y-2 text-gray-700">
+        <p><span className="font-semibold">Email:</span> {selectedStudent?.email ?? "N/A"}</p>
+        <p><span className="font-semibold">Role:</span> {selectedStudent?.role ?? "N/A"}</p>
+        <p><span className="font-semibold">Account Status:</span> {selectedStudent?.isEnabled ? "Enabled" : "Disabled"}</p>
+        {selectedStudent?.dateOfBirth && (
+          <p><span className="font-semibold">Date of Birth:</span> {new Date(selectedStudent.dateOfBirth).toLocaleDateString()}</p>
+        )}
+        {selectedStudent?.phone && <p><span className="font-semibold">Phone:</span> {selectedStudent.phone}</p>}
+        {selectedStudent?.address && <p><span className="font-semibold">Address:</span> {selectedStudent.address}</p>}
+        {selectedStudent?.country && <p><span className="font-semibold">Country:</span> {selectedStudent.country}</p>}
+        {selectedStudent?.occupation && <p><span className="font-semibold">Occupation:</span> {selectedStudent.occupation}</p>}
+        {selectedStudent?.bio && <p><span className="font-semibold">Bio:</span> {selectedStudent.bio}</p>}
+        {selectedStudent?.createdAt && (
+          <p><span className="font-semibold">Signup Date:</span> {new Date(selectedStudent.createdAt).toLocaleDateString()}</p>
+        )}
+      </div>
 
-            <div className="mt-4 space-y-2 text-gray-700">
-              <p>
-                <span className="font-semibold">Email:</span>{" "}
-                {selectedStudent.email}
-              </p>
-              <p>
-                <span className="font-semibold">Role:</span>{" "}
-                {selectedStudent.role}
-              </p>
-              <p>
-                <span className="font-semibold">Account Status:</span>{" "}
-                {selectedStudent.isEnabled ? "Enabled" : "Disabled"}
-              </p>
-              {selectedStudent.dateOfBirth && (
-                <p>
-                  <span className="font-semibold">Date of Birth:</span>{" "}
-                  {new Date(selectedStudent.dateOfBirth).toLocaleDateString()}
-                </p>
-              )}
-              {selectedStudent.phone && (
-                <p>
-                  <span className="font-semibold">Phone:</span>{" "}
-                  {selectedStudent.phone}
-                </p>
-              )}
-              {selectedStudent.address && (
-                <p>
-                  <span className="font-semibold">Address:</span>{" "}
-                  {selectedStudent.address}
-                </p>
-              )}
-              {selectedStudent.country && (
-                <p>
-                  <span className="font-semibold">Country:</span>{" "}
-                  {selectedStudent.country}
-                </p>
-              )}
-              {selectedStudent.occupation && (
-                <p>
-                  <span className="font-semibold">Occupation:</span>{" "}
-                  {selectedStudent.occupation}
-                </p>
-              )}
-              {selectedStudent.bio && (
-                <p>
-                  <span className="font-semibold">Bio:</span>{" "}
-                  {selectedStudent.bio}
-                </p>
-              )}
-              {selectedStudent.createdAt && (
-                <p>
-                  <span className="font-semibold">Signup Date:</span>{" "}
-                  {new Date(selectedStudent.createdAt).toLocaleDateString()}
-                </p>
-              )}
-            </div>
+      <div className="text-right mt-6">
+        <button
+          onClick={() => setSelectedStudent(null)}
+          className="bg-gray-600 text-white rounded px-4 py-2 hover:bg-gray-700"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
-            <div className="text-right mt-6">
-              <button
-                onClick={() => setSelectedStudent(null)}
-                className="bg-gray-600 text-white rounded px-4 py-2 hover:bg-gray-700"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Confirm Action Modal */}
       {confirmAction && (
@@ -285,3 +276,94 @@ const CourseStudents = () => {
 };
 
 export default CourseStudents;
+
+
+
+      // {/* {/*selectedStudent && (
+      //   <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-40">
+      //     <div className="bg-white rounded p-6 w-[400px] relative shadow-lg">
+      //       {/* Profile Picture */}
+      //       <div className="flex justify-center">
+      //         <img
+      //           // src={`${import.meta.env.VITE_API_BASE_URL}/${selectedStudent.profilePicture}`}
+      //           src={`${import.meta.env.VITE_API_BASE_URL.replace(/\/$/, "")}/${selectedStudent.profilePicture.replace(/^\//, "")}`}
+      //           //src={
+      //           //  selectedStudent.profilePicture ||
+      //           //  "https://via.placeholder.com/100"
+      //           //}
+      //           alt={selectedStudent.name}
+      //           className="w-24 h-24 rounded-full object-cover border-2 border-[#800000]"
+      //         />
+      //       </div>
+      //       <h2 className="text-2xl font-bold text-[#800000] text-center mt-3">
+      //         {selectedStudent.name}
+      //       </h2>
+
+      //       <div className="mt-4 space-y-2 text-gray-700">
+      //         <p>
+      //           <span className="font-semibold">Email:</span>{" "}
+      //           {selectedStudent.email}
+      //         </p>
+      //         <p>
+      //           <span className="font-semibold">Role:</span>{" "}
+      //           {selectedStudent.role}
+      //         </p>
+      //         <p>
+      //           <span className="font-semibold">Account Status:</span>{" "}
+      //           {selectedStudent.isEnabled ? "Enabled" : "Disabled"}
+      //         </p>
+      //         {selectedStudent.dateOfBirth && (
+      //           <p>
+      //             <span className="font-semibold">Date of Birth:</span>{" "}
+      //             {new Date(selectedStudent.dateOfBirth).toLocaleDateString()}
+      //           </p>
+      //         )}
+      //         {selectedStudent.phone && (
+      //           <p>
+      //             <span className="font-semibold">Phone:</span>{" "}
+      //             {selectedStudent.phone}
+      //           </p>
+      //         )}
+      //         {selectedStudent.address && (
+      //           <p>
+      //             <span className="font-semibold">Address:</span>{" "}
+      //             {selectedStudent.address}
+      //           </p>
+      //         )}
+      //         {selectedStudent.country && (
+      //           <p>
+      //             <span className="font-semibold">Country:</span>{" "}
+      //             {selectedStudent.country}
+      //           </p>
+      //         )}
+      //         {selectedStudent.occupation && (
+      //           <p>
+      //             <span className="font-semibold">Occupation:</span>{" "}
+      //             {selectedStudent.occupation}
+      //           </p>
+      //         )}
+      //         {selectedStudent.bio && (
+      //           <p>
+      //             <span className="font-semibold">Bio:</span>{" "}
+      //             {selectedStudent.bio}
+      //           </p>
+      //         )}
+      //         {selectedStudent.createdAt && (
+      //           <p>
+      //             <span className="font-semibold">Signup Date:</span>{" "}
+      //             {new Date(selectedStudent.createdAt).toLocaleDateString()}
+      //           </p>
+      //         )}
+      //       </div>
+
+      //       <div className="text-right mt-6">
+      //         <button
+      //           onClick={() => setSelectedStudent(null)}
+      //           className="bg-gray-600 text-white rounded px-4 py-2 hover:bg-gray-700"
+      //         >
+      //           Close
+      //         </button>
+      //       </div>
+      //     </div>
+      //   </div>
+      // )}  */}
