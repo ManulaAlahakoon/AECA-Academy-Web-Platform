@@ -36,7 +36,7 @@ export const createCourse = async (req, res) => {
 // Get all courses
 export const getCourses = async (req, res) => {
   try {
-    const courses = await Course.find()
+    const courses = await Course.find({isEnabled: true})
       .populate('assignedTeacher', 'name email')
       .populate('enrolledStudents', 'name email');
     res.status(200).json({ success: true, courses });
@@ -116,6 +116,7 @@ export const getApprovedCourses = async (req, res) => {
     const enrollments = await Enrollment.find({
       student: studentId,
       status: 'approved',
+      
       validUntil: { $gt: new Date() } // still valid
     }).populate({
       path: 'course',
