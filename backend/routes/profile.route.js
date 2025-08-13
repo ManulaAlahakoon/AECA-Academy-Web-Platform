@@ -49,8 +49,8 @@ router.post(
 */
 
 //Teacher routes
-router.get("/teacher/profile", getTeacherProfile);
-router.put("/teacher/profile", updateTeacherProfile);
+router.get("/teacher", getTeacherProfile);
+router.put("/teacher", updateTeacherProfile);
 router.patch("/teacher/profile/password", updateTeacherPassword);
 router.post(
   "/teacher/profile/upload-picture",
