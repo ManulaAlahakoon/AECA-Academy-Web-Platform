@@ -48,7 +48,7 @@ export const register = async (req, res) => {
     const userData = {
       name,
       email,
-      password,
+      password: hashedPassword,
       role,
     };
     // Optional fields
