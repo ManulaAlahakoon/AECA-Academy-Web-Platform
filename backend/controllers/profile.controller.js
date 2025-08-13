@@ -219,22 +219,52 @@ export const getTeacherProfile = async (req, res) => {
   }
 };
 
+// export const updateTeacherProfile = async (req, res) => {
+//   try {
+//     const updates = { ...req.body };
+//     delete updates.password;
+
+//     const user = await User.findById(req.user.id).select("-password");
+//     if (user.role !== "teacher") {
+//       return res.status(403).json({ message: "Not authorized" });
+//     }
+
+//     const updated = await User.findByIdAndUpdate(req.user.id, updates, { new: true }).select("-password");
+//     res.json({ success: true, profile: updated });
+//   } catch (err) {
+//     res.status(500).json({ message: "Error updating profile" });
+//   }
+// };
+
 export const updateTeacherProfile = async (req, res) => {
   try {
-    const updates = { ...req.body };
-    delete updates.password;
-
-    const user = await User.findById(req.user.id).select("-password");
-    if (user.role !== "teacher") {
+    // Defensive: fetch once
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      // || user.role !== "teacher"
       return res.status(403).json({ message: "Not authorized" });
     }
 
-    const updated = await User.findByIdAndUpdate(req.user.id, updates, { new: true }).select("-password");
-    res.json({ success: true, profile: updated });
+    // Only allow these fields to be updated
+    const allowedFields = ["name", "dateOfBirth", "phone", "address", "country", "occupation", "bio"];
+    allowedFields.forEach(field => {
+      if (req.body[field] !== undefined) {
+        user[field] = req.body[field];
+      }
+    });
+
+    await user.save();
+
+    const safeUser = user.toObject();
+    delete safeUser.password;
+
+    res.json({ success: true, profile: safeUser });
   } catch (err) {
+    console.error("Teacher profile update error:", err);
     res.status(500).json({ message: "Error updating profile" });
   }
 };
+
 
 export const updateTeacherPassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
