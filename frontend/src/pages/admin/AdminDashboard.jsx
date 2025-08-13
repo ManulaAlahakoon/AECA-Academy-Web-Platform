@@ -234,11 +234,19 @@ const AdminDashboard = () => {
               Recent Enrollments
             </h3>
             <ul className="bg-white rounded shadow p-4 space-y-2 text-sm">
-              {recent.enrollments.map((e) => (
+              {/* {recent.enrollments.map((e) => (
                 <li key={e._id}>
                   {e.student.name} → {e.course.name}
                 </li>
-              ))}
+              ))} */}
+              {(recent.enrollments || []).map((e) => (
+  <li key={e._id}>
+    {(e?.student?.name || "Unknown Student")} → {(e?.course?.name || "Unknown Course")}
+  </li>
+))}
+
+
+             
             </ul>
           </div>
         </div>
