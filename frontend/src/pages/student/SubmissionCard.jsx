@@ -53,7 +53,7 @@ const SubmissionCard = ({ assignment }) => {
   const handleFileReplace = (e) => {
     const file = e.target.files[0];
     if (file) {
-      uploadFile(file); // 🔁 Auto-upload
+      uploadFile(file); // Auto-upload
     }
   };
 
@@ -111,7 +111,7 @@ const SubmissionCard = ({ assignment }) => {
               <input
                 type="file"
                 hidden
-                onChange={handleFileReplace} // ✅ auto upload
+                onChange={handleFileReplace} //  auto upload
               />
             </label>
           </div>
