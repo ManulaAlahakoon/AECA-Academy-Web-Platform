@@ -6,7 +6,7 @@ import { uploadLectureMaterial as uploadMiddleware } from "../middlewares/lectur
 import { getAllLectureMaterialsByTeacher } from '../controllers/teacher.controller.js';
 import { uploadAssignment } from "../middlewares/assignmentUpload.middleware.js";
 import { deleteLectureMaterial } from "../controllers/teacher.controller.js";
-
+import { getCourseFeedbackSentiments } from '../controllers/sentimentalAnalysis.controller.js';
 
 const router = express.Router();
 
@@ -34,6 +34,11 @@ router.delete(
   authenticateToken,
   deleteLectureMaterial
 );
+
+//router.get("/courses", getAssignedCourses);
+
+
+router.get("/feedbacks/:courseId", getCourseFeedbackSentiments);
 
 export default router;
 
