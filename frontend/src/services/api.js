@@ -161,29 +161,76 @@ export const apiFetch = async (endpoint, options = {}) => {
 };
 
 
-export const apiPost = async (url, data, isFormData = false) => {
-  const token = localStorage.getItem("token");
+// export const apiPost = async (url, data, isFormData = false) => {
+//   const token = localStorage.getItem("token");
 
-  const headers = isFormData
-    ? { Authorization: `Bearer ${token}` }
-    : {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      };
+//   const headers = isFormData
+//     ? { Authorization: `Bearer ${token}` }
+//     : {
+//         "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//         "x-api-key": import.meta.env.VITE_API_KEY,
+//       };
+
+//   const response = await fetch(`${API_BASE}${url}`, {
+//     method: "POST",
+//     headers,
+//     body: isFormData ? data : JSON.stringify(data),
+//   });
+
+//   if (!response.ok) {
+//     const errorText = await response.text();
+//     throw new Error(errorText);
+//   }
+
+//   return await response.json();
+// };
+
+
+export const apiPost = async (url, data, options = {}) => {
+  const token = localStorage.getItem("token");
+  const { isFormData = false, isAudio = false } = options;
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "x-api-key": import.meta.env.VITE_API_KEY,
+  };
+
+  if (!isFormData && !isAudio) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  let body;
+  if (isFormData) {
+    body = data;
+  } else if (isAudio) {
+    body = data;
+  } else {
+    body = JSON.stringify(data);
+  }
 
   const response = await fetch(`${API_BASE}${url}`, {
     method: "POST",
-    headers,
-    body: isFormData ? data : JSON.stringify(data),
+    headers: isFormData
+      ? { Authorization: headers.Authorization, "x-api-key": headers["x-api-key"] }
+      : headers,
+    body,
   });
 
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText);
+    let errorData;
+    try {
+      errorData = await response.clone().json();
+    } catch {
+      errorData = await response.text();
+    }
+    throw new Error(JSON.stringify(errorData));
   }
 
-  return await response.json();
+  return await response.json(); // always JSON for /voice
 };
+
+
 
 
 export const apiDelete = async (endpoint) => {
