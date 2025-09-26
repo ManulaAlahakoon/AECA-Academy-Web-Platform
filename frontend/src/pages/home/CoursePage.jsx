@@ -6,44 +6,43 @@ import CourseImg1 from '../../assets/a.jpg';
 import CourseImg2 from '../../assets/b.jpg';
 import CourseImg3 from '../../assets/c.jpg';
 import CourseImg4 from '../../assets/d.jpg';
-import CourseImg5 from '../../assets/e.jpg';
 import CourseImg6 from '../../assets/f.jpg';
-
+import group from '../../assets/group.jpg';
 const courses = [
   {
-    title: 'Spoken English',
-    description: 'Enhance your speaking skills for daily communication, interviews, and social interaction.',
-    moreInfo: 'This course focuses on fluency, pronunciation, vocabulary building, and interactive conversation sessions.',
+    title: 'IELTS (individual/ small group)',
+    description: 'we specialize in preparing students for various internationally recognized English exams, including IELTS.',
+    moreInfo: 'Our experienced instructors provide targeted training that covers all 04 areas of the exams, from reading and writing to speaking and listening, ensuring that students are well-equipped to achieve their desired scores.',
     image: CourseImg1,
   },
   {
-    title: 'Business English',
-    description: 'Develop professional communication skills for meetings, emails, and workplace success.',
-    moreInfo: 'Includes formal writing, negotiation skills, presentations, and role-plays to prepare you for the corporate world.',
+    title: '⁠PTE (individual/small group)',
+    description: 'We offer tailored PTE courses specifically for basic English speakers. These courses focus on building fundamental language skills, ',
+    moreInfo: 'enhancing vocabulary, and improving communication abilities in all PTE sections. Our immersive learning environment fosters confidence and fluency step by step.',
     image: CourseImg2,
   },
   {
-    title: 'IELTS',
-    description: 'Prepare for the IELTS exam with targeted training in listening, speaking, reading, and writing.',
-    moreInfo: 'Get mock tests, speaking simulations, band score estimations, and personal feedback.',
+    title: '⁠Spoken English for Career Advancement (SECA)',
+    description: 'Understanding the importance of English proficiency in today’s global job market,',
+    moreInfo: 'AECA provides specialized courses aimed at equipping professionals with the necessary language skills for career growth.These courses emphasize business communication, presentation skills, and networking strategies in English, enhancing employability and professional relationships.',
     image: CourseImg3,
   },
   {
-    title: 'PTE',
-    description: 'Get ready for the Pearson Test of English with guided practice and strategies.',
-    moreInfo: 'Learn time management strategies, scoring criteria, and tips to maximize your PTE score.',
+    title: 'General English (Local G1-13) / International O/L & A/L)',
+    description: 'At AECA we offer small group teaching specifically designed to prepare students for local and international school exams, focusing on the General English exam.',
+    moreInfo: 'Our courses cater to both Ordinary Level (O/L) and Advanced Level (A/L) students, providing a tailored educational experience that emphasizes individualized attention and support.',
     image: CourseImg4,
   },
   {
-    title: 'Global Exams Services',
-    description: 'Support for various international English proficiency exams and test preparation.',
-    moreInfo: 'We help with TOEFL, Duolingo, and other certifications with expert-led sessions and resources.',
-    image: CourseImg5,
+    title: 'English  Language for Kids (ELK)',
+    description: 'For children learning English, small group instruction combined with individual attention can significantly enhance their language acquisition process.',
+    moreInfo: 'ELK course provides small group support with individual attention for kids learning English is a powerful strategy that addresses their unique learning needs. By fostering a supportive environment where children feel safe to explore and practice.',
+    image: group,
   },
   {
-    title: 'USA Agents and Counsellors',
-    description: 'Connect with certified agents and advisors for study and immigration pathways in the USA.',
-    moreInfo: 'Get guidance on university applications, visa processes, scholarships, and academic advising.',
+    title: 'Professional Services for Career Advancement (PSCA)',
+    description: 'Professional Services for Career Advancement (PSCA) offers comprehensive support in various writing domains to empower individuals in achieving their career goals.',
+    moreInfo: 'Our expertise ranges from CV and resume writing to business proposal development, project report creation, assignment proofreading, and citation writing. We understand that each of these elements is crucial in presenting your skills and knowledge effectively. By leveraging our services, you can enhance your professional documentation, ensure clarity in your assignments, and make a lasting impression on potential employers or partners. In PSCA services , we are committed to your success and provide tailored assistance to meet your unique needs. Let us partner with you on your journey to professional advancement.',
     image: CourseImg6,
   },
 ];
@@ -61,7 +60,7 @@ const CoursePage = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
 
-      <main className="flex flex-col px-6 md:px-20 pt-6 space-y-12">
+      <main className="flex flex-col px-6 md:px-20 pt-[260px] space-y-12">
         {/* Title */}
         <section className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold text-[#800000] mb-4">
@@ -103,6 +102,7 @@ const CoursePage = () => {
           ))}
         </section>
       </main>
+
       <Footer />
     </div>
   );

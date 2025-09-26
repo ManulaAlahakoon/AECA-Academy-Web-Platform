@@ -7,11 +7,15 @@ import { FaTachometerAlt, FaBook, FaUpload, FaBullhorn, FaCommentDots, FaRobot, 
 const studentLinks = [
   { path: "/student", label: "Dashboard", icon: <FaTachometerAlt /> },
   { path: "/student/courses", label: "My Courses", icon: <FaBook /> },
-  { path: "/student/announcements", label: "Announcements", icon: <FaBullhorn /> },
+  {
+    path: "/student/announcements",
+    label: "Announcements",
+    icon: <FaBullhorn />,
+  },
   { path: "/student/feedback", label: "Feedback", icon: <FaCommentDots /> },
   { path: "/student/chatbot", label: "Chatbot", icon: <FaRobot /> },
-  { path: "/student/profile", label: "Profile", icon: <FaUser /> }
-
+ // path: "/student/voicechatbot", label: "Chatbot", icon: <FaRobot /> },
+  { path: "/student/profile", label: "Profile", icon: <FaUser /> },
 ];
 
 const StudentLayout = () => {

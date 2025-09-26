@@ -131,7 +131,7 @@ import CoursePage from './pages/home/CoursePage';
 import ContactPage from './pages/home/ContactPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
-import ForgotPassword from './pages/auth/ForgotPassword';
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import ResetPassword from './pages/auth/ResetPassword';
 import StudentDashboard from './pages/student/StudentDashboard';
 import TeacherDashboard from './pages/teacher/TeacherDashboard';
@@ -142,6 +142,8 @@ import ManageCourse from "./pages/admin/CourseManagementPage";
 import TeacherRegistrationPage from "./pages/admin/TeacherRegistrationPage";
 import PaymentVerification from "./pages/admin/PaymentVerification";
 import ManageUsers from "./pages/admin/ManageUsers";
+import AdminAnnouncementForm from './pages/admin/AdminAnnouncementForm';
+import MaterialManagementPage from './pages/admin/MaterialManagementPage';
 
 
 //student dashboard
@@ -154,6 +156,7 @@ import StudentChatbot from './pages/student/StudentChatbot';
 import StudentCourseDetail from "./pages/student/StudentCourseDetail";
 import StudentMaterials from "./pages/student/StudentAssignments";
 import StudentProfile from './pages/student/StudentProfile';
+import VoiceChatBot from './pages/student/VoiceChatBot';
 
 
 //teacher dashboard
@@ -165,20 +168,28 @@ import CourseFeedback from "./pages/teacher/CourseFeedback";
 import TeacherLayout from "./layouts/TeacherLayout";
 import TeacherCourses from './pages/teacher/TeacherCourses';
 import TeacherCourseInfo from './pages/teacher/TeacherCourseInfo';
-
+import Events from './pages/home/Events';
+import FAQ from './pages/home/FAQ';
+import WhyChooseUs from './pages/home/WhyChooseUs';
+import Staff from './pages/home/Staff';
 function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/why-choose-us" element={<WhyChooseUs />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/features" element={<FeaturePage />} />
         <Route path="/courses" element={<CoursePage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/staff" element={<Staff />} />
+
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
 
         <Route
@@ -195,6 +206,7 @@ function App() {
           <Route path="announcements" element={<StudentAnnouncements />} />
           <Route path="feedback" element={<StudentFeedback />} />
           <Route path="chatbot" element={<StudentChatbot />} />
+          <Route path="voicechatbot" element={<VoiceChatBot />} />
           <Route path="profile" element={<StudentProfile />} />
 
           <Route path="course/:id/:name" element={<StudentCourseDetail />} />
@@ -218,11 +230,12 @@ function App() {
           <Route path="feedback" element={<CourseFeedback />} />
           <Route path="mycourses" element={<TeacherCourses />} />
           //tharushi-1
-          <Route path="/teacher/course/:courseId/materials" element={<LectureMaterials />} />
-
+          <Route
+            path="/teacher/course/:courseId/materials"
+            element={<LectureMaterials />}
+          />
           //dev
           <Route path="/teacher/course/:id" element={<TeacherCourseInfo />} />
-
         </Route>
         <Route
           path="/admin"
@@ -244,7 +257,11 @@ function App() {
           />
           <Route path="manage-users" element={<ManageUsers />} />
 
-          
+          <Route
+            path="public-announcements"
+            element={<AdminAnnouncementForm />}
+          />
+          <Route path="/admin/materials" element={<MaterialManagementPage />} />
         </Route>
       </Routes>
     </AuthProvider>

@@ -18,15 +18,26 @@ import { dirname } from "path";
 import studentRoutes from './routes/student.route.js';
 
 import { checkUserEnabled } from "./middlewares/checkUserEnabled.middleware.js";
+import studentSubmissionRoutes from './routes/studentSubmission.route.js';
+
+
 
 // Risna
 import profileRoutes from './routes/profile.route.js';
-import path from "path";
-import { fileURLToPath } from 'url';
-import feedbackRoutes from './routes/feedback.route.js';
+//import path from "path";
+//import { fileURLToPath } from 'url';
+//import feedbackRoutes from './routes/feedback.route.js';
+
+//Admin public announcment
+import publicAnnouncementRoutes from './routes/publicAnnouncement.routes.js';
 
 // import User from './models/user.model.js';
 // import bcrypt from 'bcrypt';
+
+//import path from "path";
+
+//chatbot
+import chatRoutes from './routes/chatbot.route.js';
 
 dotenv.config()
 const app = express()
@@ -44,28 +55,39 @@ app.use('/api/enrollment', authenticateToken,checkUserEnabled, enrollmentRoutes)
 
 //teacher routes
 app.use('/api/teacher', authenticateToken,checkUserEnabled, teacherRoutes);
-
-//teacher routes
-app.use('/api/teacher', authenticateToken, teacherRoutes);
 app.use("/api", teacherAnnouncementRoutes);
+
+
 //Image 
 app.use('/uploads', express.static('uploads'));
-// Serve uploaded files
+
+// Serve uploaded filesMore actions
 
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use("/LectureMaterials", express.static(path.join(process.cwd(), "uploads/LectureMaterials")));
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 
-app.use('/LectureMaterials', express.static(path.join(__dirname, 'uploads/LectureMaterials')));
-app.use('/assignments', express.static(path.join(__dirname, 'uploads/assignments')));
 
+//  Serve general uploads (if needed)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+//  Serve lecture materials properly
+app.use("/lecturematerials", express.static(path.join(__dirname, "uploads/lecturematerials")));
+
+// Serve assignments properly
+app.use("/assignments", express.static(path.join(__dirname, 'uploads','assignments')));
 
 //student routes
 app.use("/api/student", studentAnnouncementRoutes);
 app.use('/api/student', studentRoutes);
+
+//submission routes
+app.use("/api/submissions", studentSubmissionRoutes);
+app.use("/submissions", express.static(path.join(__dirname, "uploads", "submissions")));
 
 
 //Risna
@@ -80,15 +102,61 @@ app.use('/api/profile', authenticateToken, profileRoutes);
 //app.use('/uploads', express.static(path.join(__dirname, "uploads")));
 
 
+//Admin public announcments
+app.use('/api', publicAnnouncementRoutes);
+
+
+
+//tharushi - 2
+
+
+
+
+
+
+//Chatbot
+app.use('/api', chatRoutes);
 
 app.get("/user", (req, res) => {
    res.send("Server is ready") 
 })
 
+import fetch from "node-fetch";
+
+app.use(cors());
+app.use(express.json());
+
+const API_KEY = process.env.GEMINI_API_KEY; // put your key in .env
+
+// Controller: start realtime session
+app.post("/realtime-session", async (req, res) => {
+  try {
+    const response = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:beginRealtimeSession?alt=proto",
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      }
+    );
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error("Error starting session:", err);
+    res.status(500).json({ error: "Failed to start session" });
+  }
+});
+
 app.listen(5000, () => {
     connectDB()
     console.log("Server started at http://localhost:5000")
 })
+
+
 
 
 

@@ -29,7 +29,7 @@ const imageFileFilter = (req, file, cb) => {
 
 // Student Multer config
 export const uploadProfilePicture = multer({
-  storage: createStorage("profile-pictures"),
+  storage: createStorage("profile_pictures"),
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: imageFileFilter,
 });
@@ -54,7 +54,7 @@ export const handleProfilePictureUpload = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
 
-    const filePath = `/uploads/profile-pictures/${req.file.filename}`;
+    const filePath = `/uploads/profile_pictures/${req.file.filename}`;
     const user = await User.findByIdAndUpdate(
       req.user.id,
       { profilePicture: filePath },
@@ -176,3 +176,112 @@ export const updateTeacherPassword = async (req, res) => {
     res.status(500).json({ message: "Error updating password" });
   }
 };*/
+
+
+// TEACHER PROFILE MANAGEMENT
+// ==============================
+
+
+// Teacher Multer config
+export const uploadTeacherPicture = multer({
+  storage: createStorage("teacher-profile-pictures"),
+   limits: { fileSize: 5 * 1024 * 1024 },
+   fileFilter: imageFileFilter,
+ });
+ 
+export const handleTeacherPictureUpload = async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+
+    const filePath = `/uploads/teacher-profile-pictures/${req.file.filename}`;
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { profilePicture: filePath },
+      { new: true }
+    ).select("-password");
+
+    res.json({ success: true, profile: user });
+  } catch (err) {
+    console.error("Teacher image upload error:", err.message);
+    res.status(500).json({ message: "Upload error" });
+  }
+};
+
+export const getTeacherProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user || user.role !== "teacher") {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+    res.json({ success: true, profile: user });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// export const updateTeacherProfile = async (req, res) => {
+//   try {
+//     const updates = { ...req.body };
+//     delete updates.password;
+
+//     const user = await User.findById(req.user.id).select("-password");
+//     if (user.role !== "teacher") {
+//       return res.status(403).json({ message: "Not authorized" });
+//     }
+
+//     const updated = await User.findByIdAndUpdate(req.user.id, updates, { new: true }).select("-password");
+//     res.json({ success: true, profile: updated });
+//   } catch (err) {
+//     res.status(500).json({ message: "Error updating profile" });
+//   }
+// };
+
+export const updateTeacherProfile = async (req, res) => {
+  try {
+    // Defensive: fetch once
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      // || user.role !== "teacher"
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    // Only allow these fields to be updated
+    const allowedFields = ["name", "dateOfBirth", "phone", "address", "country", "occupation", "bio"];
+    allowedFields.forEach(field => {
+      if (req.body[field] !== undefined) {
+        user[field] = req.body[field];
+      }
+    });
+
+    await user.save();
+
+    const safeUser = user.toObject();
+    delete safeUser.password;
+
+    res.json({ success: true, profile: safeUser });
+  } catch (err) {
+    console.error("Teacher profile update error:", err);
+    res.status(500).json({ message: "Error updating profile" });
+  }
+};
+
+
+export const updateTeacherPassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  try {
+    const user = await User.findById(req.user.id);
+    if (user.role !== "teacher") {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    const match = await bcrypt.compare(currentPassword, user.password);
+    if (!match) return res.status(400).json({ message: "Incorrect current password" });
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.json({ success: true, message: "Password updated" });
+  } catch (err) {
+    res.status(500).json({ message: "Error updating password" });
+  }
+};

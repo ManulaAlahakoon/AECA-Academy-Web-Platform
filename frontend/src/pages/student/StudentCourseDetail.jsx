@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { apiFetch } from "../../services/api";
+import SubmissionCard from "./SubmissionCard"; // make sure path is correct
 
 const StudentCourseDetail = () => {
   const { id, name } = useParams();
@@ -29,8 +30,8 @@ const StudentCourseDetail = () => {
 
   return (
     <div className="p-6 bg-white min-h-screen">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold text-[#800000]">Course Detail - {name}</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-[#800000]">{name} - Course Details</h1>
         <button
           onClick={() => navigate(-1)}
           className="bg-gray-600 text-white px-4 py-2 rounded"
@@ -43,49 +44,41 @@ const StudentCourseDetail = () => {
         <p>Loading materials...</p>
       ) : (
         <>
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-2">Lecture Materials</h2>
+          <section className="mb-10">
+            <h2 className="text-2xl font-semibold mb-4">📘 Lecture Materials</h2>
             {lectureMaterials.length === 0 ? (
               <p>No lecture materials available.</p>
             ) : (
-              <ul className="list-disc pl-6 text-blue-700 space-y-2">
-                {lectureMaterials.map((mat, index) => (
-                  <li key={`${mat._id}-${index}`}>
+              <div className="space-y-4">
+                {lectureMaterials.map((mat) => (
+                  <div key={mat._id} className="p-4 border rounded bg-gray-50">
+                    <p className="font-medium text-lg text-[#800000]">{mat.topic}</p>
                     <a
-                      href={`http://localhost:5000/LectureMaterials/${mat.course}/${mat.fileName}`}
+                      href={`http://localhost:5000/lecturematerials/${mat.course}/${mat.fileName}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="underline"
+                      className="text-blue-600 underline"
                     >
                       {mat.originalName}
                     </a>
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             )}
-          </div>
+          </section>
 
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Assignments</h2>
+          <section>
+            <h2 className="text-2xl font-semibold mb-4">📝 Assignments</h2>
             {assignmentMaterials.length === 0 ? (
               <p>No assignments available.</p>
             ) : (
-              <ul className="list-disc pl-6 text-blue-700 space-y-2">
-                {assignmentMaterials.map((mat, index) => (
-                  <li key={`${mat._id}-${index}`}>
-                    <a
-                      href={`http://localhost:5000/${mat.type === 'assignment' ? 'assignments' : 'LectureMaterials'}/${mat.course}/${mat.fileName}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline"
-                    >
-                      {mat.originalName}
-                    </a>
-                  </li>
+              <div className="space-y-6">
+                {assignmentMaterials.map((assignment) => (
+                  <SubmissionCard key={assignment._id} assignment={assignment} />
                 ))}
-              </ul>
+              </div>
             )}
-          </div>
+          </section>
         </>
       )}
     </div>

@@ -1,146 +1,133 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { apiFetch } from "../../services/api";
 
 const TeacherProfile = () => {
-  const [teacher, setTeacher] = useState({
-    name: "Ms. Jane Doe",
-    email: "jane@aecacademy.com",
-    subject: "IELTS",
-    profilePic: null,
-  });
+  const [profile, setProfile] = useState({});
+  const [formData, setFormData] = useState({});
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
-  const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState(teacher);
-  const [previewPic, setPreviewPic] = useState(null);
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
-  const handleEditClick = () => {
-    setFormData(teacher);
-    setPreviewPic(null);
-    setShowModal(true);
+  const fetchProfile = async () => {
+    try {
+      const res = await apiFetch("/api/profile");
+      setProfile(res.profile);
+      setFormData(res.profile);
+    } catch (err) {
+      alert("Error loading profile");
+    }
   };
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData({ ...formData, profilePic: file });
-      setPreviewPic(URL.createObjectURL(file));
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await apiFetch("/api/profile/teacher", {
+        method: "PUT",
+        body: JSON.stringify(formData),
+      });
+      setProfile(res.profile);
+      setMessage("Profile updated successfully!");
+    } catch (err) {
+      setMessage("Failed to update profile.");
     }
   };
 
-  const handleSave = () => {
-    setTeacher(formData);
-    setShowModal(false);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfileImage(file);
+      setPreviewImage(URL.createObjectURL(file));
+    }
   };
 
-  const handleCancel = () => {
-    setShowModal(false);
-    setPreviewPic(null);
+  const handleImageUpload = async (e) => {
+    e.preventDefault();
+    if (!profileImage) return;
+
+    const uploadData = new FormData();
+    uploadData.append("profilePicture", profileImage);
+
+    try {
+      const res = await apiFetch("/api/profile/upload-picture", {
+        method: "POST",
+        body: uploadData,
+        isFormData: true,
+      });
+      setProfile(res.profile);
+      setMessage("Profile picture updated!");
+      setPreviewImage(null);
+      setProfileImage(null);
+    } catch (err) {
+      setMessage("Failed to upload profile picture.");
+    }
   };
 
-  const getProfileImage = () => {
-    if (previewPic) return previewPic;
-    if (teacher.profilePic instanceof File)
-      return URL.createObjectURL(teacher.profilePic);
-    return "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+  const handlePasswordUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      await apiFetch("/api/profile/password", {
+        method: "PATCH",
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      setMessage("Password updated successfully!");
+      setCurrentPassword("");
+      setNewPassword("");
+    } catch (err) {
+      setMessage("Failed to update password.");
+    }
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-semibold text-[#800000] mb-4">My Profile</h1>
+    <div className="p-6 max-w-3xl mx-auto bg-white shadow rounded mt-6">
+      <h1 className="text-2xl font-bold mb-4 text-[#800000]">Teacher Profile</h1>
 
-      {/* Profile Picture */}
-      <div className="flex justify-center mb-4">
+      {message && <p className="mb-4 text-green-600">{message}</p>}
+
+      {/* Profile Picture Upload Section */}
+      <div className="mb-6 text-center">
         <img
-          src={getProfileImage()}
+          src={
+            previewImage ||
+            `${import.meta.env.VITE_API_BASE_URL}${profile.profilePicture}`
+          }
           alt="Profile"
-          className="w-32 h-32 object-cover rounded-full border-2 border-[#800000]"
+          className="rounded-full w-32 h-32 object-cover mx-auto mb-2"
         />
+        <form onSubmit={handleImageUpload}>
+          <input type="file" accept="image/*" onChange={handleImageChange} className="mb-2" />
+          <button type="submit" className="bg-[#800000] text-white px-4 py-1 rounded">Upload</button>
+        </form>
       </div>
 
-      <p><strong>Name:</strong> {teacher.name}</p>
-      <p><strong>Email:</strong> {teacher.email}</p>
-      <p><strong>Subject:</strong> {teacher.subject}</p>
+      <form onSubmit={handleProfileUpdate} className="space-y-4">
+        <input name="name" value={formData.name || ""} onChange={handleInputChange} placeholder="Name" className="w-full p-2 border rounded" />
+        <input name="email" value={formData.email || ""} disabled className="w-full p-2 border rounded bg-gray-100" />
+        <input name="dateOfBirth" type="date" value={formData.dateOfBirth?.slice(0, 10) || ""} onChange={handleInputChange} className="w-full p-2 border rounded" />
+        <input name="phone" value={formData.phone || ""} onChange={handleInputChange} placeholder="Phone" className="w-full p-2 border rounded" />
+        <input name="address" value={formData.address || ""} onChange={handleInputChange} placeholder="Address" className="w-full p-2 border rounded" />
+        <input name="country" value={formData.country || ""} onChange={handleInputChange} placeholder="Country" className="w-full p-2 border rounded" />
+        <input name="occupation" value={formData.occupation || ""} onChange={handleInputChange} placeholder="Occupation" className="w-full p-2 border rounded" />
+        <textarea name="bio" value={formData.bio || ""} onChange={handleInputChange} placeholder="Bio" className="w-full p-2 border rounded" />
+        <button type="submit" className="bg-[#800000] text-white px-4 py-2 rounded">Update Profile</button>
+      </form>
 
-      <div className="flex justify-end mt-4">
-        <button
-          onClick={handleEditClick}
-          className="bg-[#800000] text-white px-4 py-2 rounded hover:bg-[#990000]"
-        >
-          Edit Profile
-        </button>
-      </div>
+      <hr className="my-6" />
 
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-[90%] max-w-md shadow-lg relative">
-            <h2 className="text-xl font-semibold text-[#800000] mb-4">Update Profile</h2>
-
-            {/* Profile Picture Input */}
-            <div className="flex flex-col items-center mb-4">
-              <img
-                src={previewPic || getProfileImage()}
-                alt="Preview"
-                className="w-24 h-24 object-cover rounded-full border-2 border-[#800000] mb-2"
-              />
-              <input type="file" accept="image/*" onChange={handleImageChange} />
-            </div>
-
-            {/* Input Fields */}
-            <div className="space-y-3">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="w-full border px-3 py-2 rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full border px-3 py-2 rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Subject</label>
-                <input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleInputChange}
-                  className="w-full border px-3 py-2 rounded"
-                />
-              </div>
-            </div>
-
-            {/* Modal Buttons */}
-            <div className="flex justify-end gap-3 mt-6">
-              <button
-                onClick={handleSave}
-                className="bg-[#800000] text-white px-4 py-2 rounded hover:bg-[#990000]"
-              >
-                Save
-              </button>
-              <button
-                onClick={handleCancel}
-                className="bg-gray-300 text-black px-4 py-2 rounded"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <form onSubmit={handlePasswordUpdate} className="space-y-4">
+        <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder="Current Password" className="w-full p-2 border rounded" />
+        <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="New Password" className="w-full p-2 border rounded" />
+        <button type="submit" className="bg-[#800000] text-white px-4 py-2 rounded">Change Password</button>
+      </form>
     </div>
   );
 };

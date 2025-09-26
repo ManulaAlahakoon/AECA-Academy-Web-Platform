@@ -8,18 +8,18 @@ const StudentFeedback = () => {
   const [feedback, setFeedback] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
 
-  useEffect(() => {
-    // Fetch courses for dropdown (enrolled ones)
-    const fetchCourses = async () => {
-      try {
-        const res = await apiFetch("/api/student/enrolled-courses");
-        setCourses(res);
-      } catch (err) {
-        console.error("Failed to load courses", err);
-      }
-    };
-    fetchCourses();
-  }, []);
+useEffect(() => {
+  const fetchCourses = async () => {
+    try {
+      const res = await apiFetch("/api/student/feedback/enrolled-courses");
+      setCourses(res.courses || []); //  pick only the array
+      console.log("Courses fetched:", res.courses);
+    } catch (err) {
+      console.log("Failed to load courses", err);
+    }
+  };
+  fetchCourses();
+}, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,11 +28,14 @@ const StudentFeedback = () => {
     }
 
     try {
-      const res = await apiFetch("/api/student/submit-feedback", {
-        method: "POST",
-        body: JSON.stringify({ courseId: selectedCourseId, feedback }),
-        headers: { "Content-Type": "application/json" },
-      });
+      const res = await apiFetch(
+        "/api/student/feedback/submit-feedback",
+        {
+          method: "POST",
+          body: JSON.stringify({ courseId: selectedCourseId, feedback }),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       setStatusMessage(res.message || "Feedback submitted successfully.");
       setFeedback("");

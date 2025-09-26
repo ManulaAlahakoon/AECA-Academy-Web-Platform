@@ -16,7 +16,7 @@ const teacherLinks = [
   { path: "/teacher/lecturematerials", label: "Lecture Materials", icon: <FaBook /> },
   { path: "/teacher/announcements", label: "Announcements", icon: <FaBullhorn /> },
   { path: "/teacher/feedback", label: "Feedback", icon: <FaCommentDots /> },
-  { path: "/teacher/submissions", label: "Submissions", icon: <FaFileAlt /> },
+  //{ path: "/teacher/submissions", label: "Submissions", icon: <FaFileAlt /> },
   { path: "/teacher/profile", label: "Profile", icon: <FaUserCircle /> },
 ];
 
