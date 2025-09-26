@@ -156,6 +156,7 @@ import StudentChatbot from './pages/student/StudentChatbot';
 import StudentCourseDetail from "./pages/student/StudentCourseDetail";
 import StudentMaterials from "./pages/student/StudentAssignments";
 import StudentProfile from './pages/student/StudentProfile';
+import VoiceChatBot from './pages/student/VoiceChatBot';
 
 
 //teacher dashboard
@@ -205,6 +206,7 @@ function App() {
           <Route path="announcements" element={<StudentAnnouncements />} />
           <Route path="feedback" element={<StudentFeedback />} />
           <Route path="chatbot" element={<StudentChatbot />} />
+          <Route path="voicechatbot" element={<VoiceChatBot />} />
           <Route path="profile" element={<StudentProfile />} />
 
           <Route path="course/:id/:name" element={<StudentCourseDetail />} />
