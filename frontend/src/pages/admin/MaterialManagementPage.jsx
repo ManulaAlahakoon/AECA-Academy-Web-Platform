@@ -268,13 +268,18 @@ const MaterialManagementPage = () => {
                       <div className="flex justify-between items-center">
                         <div>
                           <a
-                            href={`${import.meta.env.VITE_API_BASE_URL.replace(/\/$/, "")}/${mat.filePath.replace(/^\//, "")}`}
+                            href={`${import.meta.env.VITE_API_BASE_URL}${
+                              mat.type === "assignment"
+                                ? `/assignments/${mat.course}/${mat.fileName}`
+                                : `/LectureMaterials/${mat.course}/${mat.fileName}`
+                            }`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-700 underline font-medium"
                           >
                             {mat.originalName}
                           </a>
+
                           <div className="text-sm text-gray-600">
                             Uploaded by: {mat.uploadedBy?.name || "Unknown"}
                           </div>
