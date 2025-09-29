@@ -125,9 +125,9 @@ import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import HomePage from './pages/home/HomePage';
-import AboutPage from './pages/home/AboutPage';
-import FeaturePage from './pages/home/FeaturePage';
-import CoursePage from './pages/home/CoursePage';
+//import AboutPage from './pages/home/AboutPage';
+//import FeaturePage from './pages/home/FeaturePage';
+//import CoursePage from './pages/home/CoursePage';
 import ContactPage from './pages/home/ContactPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
@@ -171,7 +171,7 @@ import TeacherCourseInfo from './pages/teacher/TeacherCourseInfo';
 import Events from './pages/home/Events';
 import FAQ from './pages/home/FAQ';
 import WhyChooseUs from './pages/home/WhyChooseUs';
-import Staff from './pages/home/Staff';
+//import Staff from './pages/home/Staff';
 function App() {
   return (
     <AuthProvider>
@@ -181,11 +181,11 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/why-choose-us" element={<WhyChooseUs />} />
-        <Route path="/about" element={<AboutPage />} />
+        {/* <Route path="/about" element={<AboutPage />} />
         <Route path="/features" element={<FeaturePage />} />
-        <Route path="/courses" element={<CoursePage />} />
+        <Route path="/courses" element={<CoursePage />} /> */}
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/staff" element={<Staff />} />
+        {/* <Route path="/staff" element={<Staff />} /> */}
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
