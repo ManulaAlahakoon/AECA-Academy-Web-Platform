@@ -136,3 +136,31 @@ export const deleteLectureMaterial = async (req, res) => {
 //   }
 // };
 
+
+export const uploadAssignmentController = async (req, res) => {
+  try {
+    const { course, topic, dueDate } = req.body;
+
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: "File is required" });
+    }
+
+    const newAssignment = new LectureMaterial({
+      course,
+      topic,
+      type: "assignment",   //  distinguish assignment from lecture
+      dueDate,
+      uploadedBy: req.user.id,
+      filePath: req.file.path.replace(/\\/g, "/"),
+      fileName: req.file.filename,
+      originalName: req.file.originalname,
+    });
+
+    await newAssignment.save();
+
+    res.status(201).json({ success: true, assignment: newAssignment });
+  } catch (err) {
+    console.error("Upload assignment error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};

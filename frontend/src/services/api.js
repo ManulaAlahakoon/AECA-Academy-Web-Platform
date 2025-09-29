@@ -231,6 +231,29 @@ export const apiPost = async (url, data, options = {}) => {
 };
 
 
+export const apiPostPost = async (url, data, isFormData = false) => {
+  const token = localStorage.getItem("token");
+
+  const headers = isFormData
+    ? { Authorization: `Bearer ${token}` }
+    : {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+
+  const response = await fetch(`${API_BASE}${url}`, {
+    method: "POST",
+    headers,
+    body: isFormData ? data : JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText);
+  }
+
+  return await response.json();
+};
 
 
 export const apiDelete = async (endpoint) => {

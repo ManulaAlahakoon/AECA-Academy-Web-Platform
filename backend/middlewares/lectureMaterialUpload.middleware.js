@@ -42,4 +42,4 @@ const fileFilter = (req, file, cb) => {
   cb(null, allowed.includes(file.mimetype));
 };
 
-export const uploadLectureMaterial = multer({ storage, fileFilter }).single("file");
+export const lectureMaterialUpload = multer({ storage, fileFilter }).single("file");
