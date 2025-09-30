@@ -1,7 +1,7 @@
 import express from 'express';
 import { enrollStudent, approveEnrollment, getPendingEnrollments, rejectEnrollment } from '../controllers/enrollment.controller.js';
 import { authenticateToken } from '../middlewares/auth.middleware.js';
-import upload from '../middlewares/upload.middleware.js';
+import { upload } from '../middlewares/upload.middleware.js';
 
 const router = express.Router();
 
