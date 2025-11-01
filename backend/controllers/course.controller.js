@@ -70,6 +70,11 @@ export const updateCourse = async (req, res) => {
     course.image = image ?? course.image;
     course.isEnabled = isEnabled ?? course.isEnabled;
     course.monthlyFee = monthlyFee ?? course.monthlyFee;      
+
+      if (typeof isEnabled === "boolean") {
+      course.isEnabled = isEnabled;
+    }
+    
     await course.save();
     res.status(200).json({ success: true, message: 'Course updated', course });
   } catch (error) {
@@ -79,18 +84,42 @@ export const updateCourse = async (req, res) => {
 };
 
 // Toggle course enable/disable
+// export const toggleCourse = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+
+//     const course = await Course.findById(id);
+//     if (!course) {
+//       return res.status(404).json({ success: false, message: 'Course not found' });
+//     }
+
+//     course.isEnabled = !course.isEnabled;
+//     await course.save();
+//     res.status(200).json({ success: true, message: `Course ${course.isEnabled ? 'enabled' : 'disabled'}` });
+//   } catch (error) {
+//     console.error("Error in toggleCourse: ", error.message);
+//     res.status(500).json({ success: false, message: 'Server Error' });
+//   }
+// };
+
+// Toggle course enable/disable
 export const toggleCourse = async (req, res) => {
   try {
     const { id } = req.params;
 
     const course = await Course.findById(id);
-    if (!course) {    
+    if (!course) {
       return res.status(404).json({ success: false, message: 'Course not found' });
     }
 
     course.isEnabled = !course.isEnabled;
     await course.save();
-    res.status(200).json({ success: true, message: `Course ${course.isEnabled ? 'enabled' : 'disabled'}` });
+
+    res.status(200).json({ 
+      success: true, 
+      message: `Course ${course.isEnabled ? 'enabled' : 'disabled'}`, 
+      course 
+    });
   } catch (error) {
     console.error("Error in toggleCourse: ", error.message);
     res.status(500).json({ success: false, message: 'Server Error' });

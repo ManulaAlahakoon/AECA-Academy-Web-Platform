@@ -160,6 +160,49 @@ export const apiFetch = async (endpoint, options = {}) => {
   return data;
 };
 
+export const apiFetchFetch = async (endpoint, options = {}) => {
+  const token = localStorage.getItem("token");
+  const headers = {
+    ...(token && { Authorization: `Bearer ${token}` }),
+    ...(options.headers || {}),
+  };
+
+  let body = options.body;
+
+  if (body && !(body instanceof FormData)) {
+    headers["Content-Type"] = "application/json";
+    body = JSON.stringify(body);
+  }
+
+  const res = await fetch(`${BASE_URL}${endpoint}`, {
+    ...options,
+    headers,
+    body,
+  });
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    if (res.status === 403 && data.message?.includes("disabled")) {
+      alert(data.message);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/login";
+    }
+
+    if (res.status === 401) {
+      alert(data.message || "Your session has expired. Please log in again.");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/login";
+    }
+
+    throw new Error(data.message || "Something went wrong");
+  }
+
+  return data;
+};
+
 
 // export const apiPost = async (url, data, isFormData = false) => {
 //   const token = localStorage.getItem("token");

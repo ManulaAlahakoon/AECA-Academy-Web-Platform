@@ -10,6 +10,8 @@ import {
   FaBars,
   FaMoneyCheckAlt,
   FaBullhorn,
+  FaComments,
+  FaFileAlt,
 } from "react-icons/fa";
 
 const adminLinks = [
@@ -17,7 +19,8 @@ const adminLinks = [
   { path: "/admin/manage-courses", label: "Courses", icon: <FaBook /> },
   { path: "/admin/manage-users", label: "Manage Users", icon: <FaUsers /> },
   { path: "/admin/public-announcements", label: "Announcements", icon: <FaBullhorn /> },
-  { path: "/admin/materials", label: "Material Management", icon: <FaBullhorn /> },
+  { path: "/admin/materials", label: "Material Management", icon: <FaFileAlt  /> },
+  { path: "/admin/feedback-sentiment", label: "Feedback Sentiment", icon: <FaComments /> },
   { path: "/admin/teacher-registration", label: "Teacher Registration", icon: <FaChartBar /> },
   { path: "/admin/enrollment-approvals", label: "Payment Verification", icon: <FaMoneyCheckAlt /> }
 ];

@@ -1,6 +1,6 @@
 import express from 'express';
-
 import { registerTeacher, getAdminDashboardStats, getCourseEnrollmentChart, getRecentActivity, getWeeklySignups, getEnrolledStudentsByCourse, updateStudentStatus, getMaterialsByCourse, toggleMaterialStatus, getCourseMaterials } from "../controllers/admin.controller.js"
+import { getAllCourses, getCourseFeedbackSentimentsAdmin } from "../controllers/admin.controller.js";
 
 
 const router = express.Router();
@@ -20,6 +20,12 @@ router.get("/materials/:course", getMaterialsByCourse);
 router.patch("/materials/:id/toggle", toggleMaterialStatus);
 
 //Lecture material viewing
-router.get("/materials/course/:courseName",getCourseMaterials);     
+router.get("/materials/course/:courseName", getCourseMaterials);     
+
+//Admin side sentimental analysis
+
+router.get("/courses", getAllCourses);
+router.get("/feedbacks/:courseId", getCourseFeedbackSentimentsAdmin);
+
 
 export default router;

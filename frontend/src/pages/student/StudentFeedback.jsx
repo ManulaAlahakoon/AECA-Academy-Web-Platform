@@ -1,6 +1,6 @@
 // File: src/pages/student/StudentFeedback.jsx
 import React, { useState, useEffect } from "react";
-import { apiFetch } from "../../services/api"; // Make sure this exists
+import { apiFetchFetch,apiFetch,apiPost } from "../../services/api"; // Make sure this exists
 
 const StudentFeedback = () => {
   const [courses, setCourses] = useState([]);
@@ -21,6 +21,27 @@ useEffect(() => {
   fetchCourses();
 }, []);
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!selectedCourseId || !feedback.trim()) {
+  //     return setStatusMessage("Please select a course and enter feedback.");
+  //   }
+
+  //   try {
+  //     const res = await apiFetchFetch("/api/student/feedback/submit-feedback", {
+  //       method: "POST",
+  //       body: { courseId: selectedCourseId, feedback }, // pass plain object
+  //     });
+
+
+  //     setStatusMessage(res.message || "Feedback submitted successfully.");
+  //     setFeedback("");
+  //     setSelectedCourseId("");
+  //   } catch (err) {
+  //     setStatusMessage("Error submitting feedback.");
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedCourseId || !feedback.trim()) {
@@ -28,19 +49,16 @@ useEffect(() => {
     }
 
     try {
-      const res = await apiFetch(
-        "/api/student/feedback/submit-feedback",
-        {
-          method: "POST",
-          body: JSON.stringify({ courseId: selectedCourseId, feedback }),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const res = await apiPost("/api/student/feedback/submit-feedback", {
+        courseId: selectedCourseId,
+        feedback,
+      });
 
       setStatusMessage(res.message || "Feedback submitted successfully.");
       setFeedback("");
       setSelectedCourseId("");
     } catch (err) {
+      console.error("Feedback submit error:", err);
       setStatusMessage("Error submitting feedback.");
     }
   };
@@ -93,7 +111,7 @@ useEffect(() => {
 
       {statusMessage && (
         <p className="mt-4 text-center text-sm text-green-700 font-medium">
-          {statusMessage}
+          {/* {statusMessage} */}
         </p>
       )}
     </div>

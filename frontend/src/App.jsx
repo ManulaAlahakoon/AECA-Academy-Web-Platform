@@ -144,6 +144,7 @@ import PaymentVerification from "./pages/admin/PaymentVerification";
 import ManageUsers from "./pages/admin/ManageUsers";
 import AdminAnnouncementForm from './pages/admin/AdminAnnouncementForm';
 import MaterialManagementPage from './pages/admin/MaterialManagementPage';
+import AdminFeedbackSentiment from './pages/admin/AdminFeedbackSentiment';
 
 
 //student dashboard
@@ -260,6 +261,10 @@ function App() {
           <Route
             path="public-announcements"
             element={<AdminAnnouncementForm />}
+          />
+          <Route
+            path="feedback-sentiment"
+            element={<AdminFeedbackSentiment />}
           />
           <Route path="/admin/materials" element={<MaterialManagementPage />} />
         </Route>

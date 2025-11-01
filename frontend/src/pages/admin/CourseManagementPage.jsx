@@ -10,6 +10,8 @@ const CourseManagementPage = () => {
     description: "",
     image: "",
     assignedTeacher: "",
+    monthlyFee: "", // Added
+    isEnabled: true, // optional default
   });
   const [isEditing, setIsEditing] = useState(false);
   const [editCourseId, setEditCourseId] = useState(null);
@@ -59,6 +61,7 @@ const CourseManagementPage = () => {
         name: "",
         description: "",
         image: "",
+        monthlyFee: "",
         assignedTeacher: "",
       });
       setIsEditing(false);
@@ -69,16 +72,57 @@ const CourseManagementPage = () => {
     }
   };
 
-  const handleToggle = async (id) => {
-    try {
-      await apiFetch(`/api/courses/${id}/toggle`, {
-        method: "PATCH",
-      });
-      fetchCourses();
-    } catch (err) {
-      alert(err.message);
-    }
-  };
+  // const handleToggle = async (id) => {
+  //   try {
+  //     await apiFetch(`/api/courses/${id}/toggle`, {
+  //       method: "PATCH",
+  //     });
+  //     fetchCourses();
+  //   } catch (err) {
+  //     alert(err.message);
+  //   }
+  // };
+
+ const handleToggle = async (id, currentStatus, courseName) => {
+   // Ask for confirmation
+   const action = currentStatus ? "disable" : "enable";
+   const confirmToggle = window.confirm(
+     `Are you sure you want to ${action} the course "${courseName}"?`
+   );
+   if (!confirmToggle) return; // Exit if user cancels
+
+   try {
+     const res = await apiFetch(`/api/courses/${id}/toggle`, {
+       method: "PATCH",
+     });
+
+     // Update the course state locally
+     setCourses((prevCourses) =>
+       prevCourses.map((course) =>
+         course._id === id
+           ? { ...course, isEnabled: res.course.isEnabled }
+           : course
+       )
+     );
+
+     // Optional: show success message
+     alert(res.message);
+   } catch (err) {
+     alert(err.message);
+   }
+ };
+
+
+  // const handleEdit = (course) => {
+  //   setForm({
+  //     name: course.name,
+  //     description: course.description,
+  //     image: course.image,
+  //     assignedTeacher: course.assignedTeacher?._id || "",
+  //   });
+  //   setEditCourseId(course._id);
+  //   setIsEditing(true);
+  // };
 
   const handleEdit = (course) => {
     setForm({
@@ -86,10 +130,13 @@ const CourseManagementPage = () => {
       description: course.description,
       image: course.image,
       assignedTeacher: course.assignedTeacher?._id || "",
+      monthlyFee: course.monthlyFee || "",
+      isEnabled: course.isEnabled, //  keep status
     });
     setEditCourseId(course._id);
     setIsEditing(true);
   };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -273,11 +320,14 @@ const CourseManagementPage = () => {
                 <td className="border p-2">
                   <div className="flex space-x-2">
                     <button
-                      onClick={() => handleToggle(course._id)}
+                      onClick={() =>
+                        handleToggle(course._id, course.isEnabled, course.name)
+                      }
                       className="w-24 bg-[#800000] hover:bg-[#660000] text-white px-3 py-1 rounded font-semibold"
                     >
                       {course.isEnabled ? "Disable" : "Enable"}
                     </button>
+
                     <button
                       onClick={() => handleEdit(course)}
                       className="w-24 bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded font-semibold"
